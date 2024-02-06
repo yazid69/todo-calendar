@@ -113,7 +113,7 @@ const AddTask = () => {
 
   return (
     <>
-      <TopBar title="Add New Task" />
+      <TopBar title="Ajouter une nouvelle tâche" />
       <Container>
         <CustomEmojiPicker
           emoji={typeof emoji === "string" ? emoji : undefined}
@@ -121,9 +121,9 @@ const AddTask = () => {
           color={color}
         />
         <StyledInput
-          label="Task Name"
+          label="Nom de la tâche"
           name="name"
-          placeholder="Enter task name"
+          placeholder="Saisir le nom de la tâche"
           value={name}
           onChange={handleNameChange}
           focused
@@ -139,9 +139,9 @@ const AddTask = () => {
           }
         />
         <StyledInput
-          label="Task Description (optional)"
+          label="Description de la tâche (facultatif)"
           name="name"
-          placeholder="Enter task description"
+          placeholder="Saisir la description de la tâche"
           value={description}
           onChange={handleDescriptionChange}
           multiline
@@ -158,9 +158,9 @@ const AddTask = () => {
           }
         />
         <StyledInput
-          label="Task Deadline (optional)"
+          label="Date limite d'exécution de la tâche (facultatif)"
           name="name"
-          placeholder="Enter deadline date"
+          placeholder="Saisir la date limite"
           type="datetime-local"
           value={deadline}
           onChange={handleDeadlineChange}
@@ -198,7 +198,7 @@ const AddTask = () => {
                   borderRadius: "12px",
                 }}
               >
-                <Edit /> &nbsp; Modify Categories
+                <Edit /> &nbsp; Modifier les catégories
               </Button>
             </Link>
           </>
@@ -216,7 +216,7 @@ const AddTask = () => {
             name.length > TASK_NAME_MAX_LENGTH || description.length > DESCRIPTION_MAX_LENGTH
           }
         >
-          Create Task
+          Créer une tâche
         </AddTaskButton>
       </Container>
     </>

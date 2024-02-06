@@ -695,9 +695,9 @@ export const Tasks: React.FC = () => {
           ))
         ) : (
           <NoTasks>
-            <b>You don't have any tasks yet</b>
+            <b>Vous n'avez pas encore de tâches</b>
             <br />
-            Click on the <b>+</b> button to add one
+            Cliquez sur l'icône <b>+</b> pour en ajouter une
           </NoTasks>
         )}
         {search &&

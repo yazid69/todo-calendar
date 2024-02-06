@@ -6,36 +6,36 @@ export const getRandomGreetings = (): string => {
   const hours = 24 - new Date().getHours();
 
   const textGreetings: string[] = [
-    "Let's make today count! **1f680**",
-    "Get things done and conquer the day!",
-    "Embrace the power of productivity!",
-    "Set your goals, crush them, repeat.",
-    "Today is a new opportunity to be productive!",
-    "Make every moment count.",
-    "Stay organized, stay ahead.",
-    "Take charge of your day!",
-    "One task at a time, you've got this!",
-    "Productivity is the key to success. **1f511**",
-    "Let's turn plans into accomplishments!",
-    "Start small, achieve big.",
-    "Be efficient, be productive.",
-    "Harness the power of productivity!",
-    "Get ready to make things happen!",
-    "It's time to check off those tasks! **2705**",
-    "Start your day with a plan! **1f5d3-fe0f**",
-    "Stay focused, stay productive.",
-    "Unlock your productivity potential. **1f513**",
-    "Turn your to-do list into a to-done list! **1f4dd**",
+    "Faisons en sorte que chaque jour compte ! **1f680**",
+    "Accomplis des choses et conquiers la journée !",
+    "Adopte le pouvoir de la productivité !",
+    "Fixe tes objectifs, écrase-les, répète.",
+    "Aujourd'hui est une nouvelle opportunité d'être productif !",
+    "Fais de chaque moment un moment qui compte.",
+    "Reste organisé, reste en avance.",
+    "Prends le contrôle de ta journée !",
+    "Une tâche à la fois, tu peux le faire !",
+    "La productivité est la clé du succès. **1f511**",
+    "Transformons les plans en réalisations !",
+    "Commence petit, accomplis grand.",
+    "Sois efficace, sois productif.",
+    "Exploite le pouvoir de la productivité !",
+    "Prépare-toi à faire bouger les choses !",
+    "Il est temps de cocher ces tâches ! **2705**",
+    "Commence ta journée avec un plan ! **1f5d3-fe0f**",
+    "Reste concentré, reste productif.",
+    "Libère ton potentiel de productivité. **1f513**",
+    "Transforme ta liste de choses à faire en liste de choses faites ! **1f4dd**",
 
-    `Have a wonderful  ${new Date().toLocaleDateString("en", {
+    `Passe une merveilleuse ${new Date().toLocaleDateString("fr", {
       weekday: "long",
-    })}!`,
-    `Happy ${new Date().toLocaleDateString("en", {
+    })} !`,
+    `Joyeux mois de ${new Date().toLocaleDateString("fr", {
       month: "long",
-    })}! A great month for productivity!`,
+    })} ! Un excellent mois pour la productivité !`,
     hours > 4
-      ? `${hours} hours left in the day. Use them wisely!`
-      : `Only ${hours} hours left in the day`,
+      ? `${hours} heures restantes dans la journée. Utilise-les judicieusement !`
+      : `Il ne reste que ${hours} heures dans la journée`,
   ];
 
   const randomIndex = Math.floor(Math.random() * textGreetings.length);

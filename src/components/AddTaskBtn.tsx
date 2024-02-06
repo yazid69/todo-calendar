@@ -24,7 +24,7 @@ export const AddTaskBtn = ({ animate }: AddTaskBtnProps): JSX.Element | null => 
   }
 
   return (
-    <Tooltip title={tasks.length > 0 ? "Add New Task" : "Add Task"} placement="left">
+    <Tooltip title={tasks.length > 0 ? "Ajouter une nouvelle tâche" : "Ajouter la tâche"} placement="left">
       <Btn
         animate={animate}
         glow={settings[0].enableGlow}
