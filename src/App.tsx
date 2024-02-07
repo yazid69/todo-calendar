@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import ProfileAvatar from './components/ProfileAvatar';
+import Tasks from './components/Tasks';
+
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +21,17 @@ function App() {
         <div style={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
           <img src="logo.svg" alt="Logo" style={{ marginRight: '10px' }} />
           <h1>Calendrier</h1>
+          <style>
+            {`
+              h1 {
+                color: rgb(119, 100, 232);
+                font-size: 1.5rem
+              }
+            `}
+          </style>
         </div>
-        {/* Ajoutez le contenu du tiroir ici */}
+        <Tasks />
+
       </Drawer>
     </div>
   );

@@ -11,16 +11,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      devOptions: {
-        enabled: true
-      },
       workbox: {
         navigateFallback: 'index.html',
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
       manifest: {
-        name: "Vite App",
-        short_name: "Vite App",
+        name: "Todo Calendar",
+        short_name: "Todo Calendar",
         theme_color: "#ffffff",
         icons: [
           {
