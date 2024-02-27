@@ -8,7 +8,7 @@ export const GreetingHeader = styled.div`
   margin-top: 12px;
   font-size: 26px;
   font-weight: bold;
-  margin-top: 16px;
+  margin-top: 55px;
   margin-left: 8px;
 
   @media (max-width: 550px) {

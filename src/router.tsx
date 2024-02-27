@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ReactElement } from "react";
 // import UserSettings from "./pages/UserSettings";
 // import Categories from "./pages/Categories";
-// import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFound";
 import AddTask from "./pages/AddTask";
 // import ImportExport from "./pages/ImportExport";
 import Home from "./pages/Home";
@@ -20,7 +20,7 @@ const AppRouter = (): ReactElement => {
         {/* <Route path="/user" element={<UserSettings />} /> */}
         {/* <Route path="/import-export" element={<ImportExport />} /> */}
         {/* <Route path="/categories" element={<Categories />} /> */}
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

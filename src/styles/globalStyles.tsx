@@ -292,14 +292,14 @@ export const slideInBottom = keyframes`
 export const pulseAnimation = keyframes`
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(182, 36, 255, 0.7);
+    box-shadow: 0 0 0 0 rgba(2, 62, 138, 0.7);
   }
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 12px rgba(182, 36, 255, 0);
+    box-shadow: 0 0 0 12px rgba(2, 62, 138, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(182, 36, 255, 0);
+    box-shadow: 0 0 0 0 rgba(2, 62, 138, 0);
   }
 `;

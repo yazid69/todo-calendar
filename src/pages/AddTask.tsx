@@ -103,7 +103,7 @@ const AddTask = () => {
       n("/");
       toast.success((t) => (
         <div onClick={() => toast.dismiss(t.id)}>
-          Added task - <b>{newTask.name}</b>
+          Tâche ajoutée - <b>{newTask.name}</b>
         </div>
       ));
     } else {
