@@ -6,18 +6,18 @@ import { useEffect, useState } from "react";
  * @returns {boolean} - A boolean value indicating whether the current device is a smaller device.
  */
 export const useResponsiveDisplay = (breakpoint: number = 768): boolean => {
-    const [isSmallerDevice, setIsSmallerDevice] = useState < boolean > (false);
-    const checkScreenSize = () => {
-        setIsSmallerDevice(window.innerWidth < breakpoint);
+  const [isSmallerDevice, setIsSmallerDevice] = useState<boolean>(false);
+  const checkScreenSize = () => {
+    setIsSmallerDevice(window.innerWidth < breakpoint);
+  };
+  useEffect(() => {
+    checkScreenSize();
+    const handleResize = () => checkScreenSize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
-    useEffect(() => {
-        checkScreenSize();
-        const handleResize = () => checkScreenSize();
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, [breakpoint]);
+  }, [breakpoint]);
 
-    return isSmallerDevice;
+  return isSmallerDevice;
 };

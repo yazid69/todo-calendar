@@ -10,34 +10,34 @@ import { UserContext } from "../contexts/UserContext";
 import { getFontColorFromHex } from "../utils/getFontColorFromHex";
 
 interface AddTaskBtnProps {
-    animate: boolean
+  animate: boolean
 }
 
 export const AddTaskBtn = ({ animate }: AddTaskBtnProps): JSX.Element | null => {
-    const { user } = useContext(UserContext);
-    const { tasks, settings } = user;
-    const n = useNavigate();
-    const isMobile = useResponsiveDisplay();
+  const { user } = useContext(UserContext);
+  const { tasks, settings } = user;
+  const n = useNavigate();
+  const isMobile = useResponsiveDisplay();
 
-    if (isMobile) {
-        return null;
-    }
+  if (isMobile) {
+    return null;
+  }
 
-    return (
-        <Tooltip title={tasks.length > 0 ? "Ajouter une nouvelle tâche" : "Ajouter la tâche"} placement="left">
-            <Btn
-                animate={animate}
-                glow={settings[0].enableGlow}
-                onClick={() => n("add")}
-                aria-label="Add Task"
-            >
-                <AddRounded style={{ fontSize: "44px" }} />
-            </Btn>
-        </Tooltip>
-    );
+  return (
+    <Tooltip title={tasks.length > 0 ? "Ajouter une nouvelle tâche" : "Ajouter la tâche"} placement="left">
+      <Btn
+        animate={animate}
+        glow={settings[0].enableGlow}
+        onClick={() => n("add")}
+        aria-label="Add Task"
+      >
+        <AddRounded style={{ fontSize: "44px" }} />
+      </Btn>
+    </Tooltip>
+  );
 };
 
-const Btn = styled(Button) <{ animate: boolean; glow: boolean }>`
+const Btn = styled(Button)<{ animate: boolean; glow: boolean }>`
   cursor: pointer;
   border: none;
   display: flex;
@@ -61,8 +61,8 @@ const Btn = styled(Button) <{ animate: boolean; glow: boolean }>`
   }
 
   ${({ animate }) =>
-        animate &&
-        css`
+    animate &&
+    css`
       animation: ${pulseAnimation} 1.2s infinite;
     `}
 

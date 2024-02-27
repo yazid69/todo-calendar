@@ -7,70 +7,70 @@ import { UserContext } from "../contexts/UserContext";
 import { Category } from "../types/user";
 
 interface CategoryBadgeProps extends ChipProps, StyledBadgeProps {
-    category: Category;
-    /**
-     * Array representing emoji sizes: [normal, native]
-     */
-    emojiSizes?: [number, number];
+  category: Category;
+  /**
+   * Array representing emoji sizes: [normal, native]
+   */
+  emojiSizes?: [number, number];
 }
 /**
  * React component for displaying a category badge.
  */
 export const CategoryBadge: React.FC<CategoryBadgeProps> = ({ category, emojiSizes, ...props }) => {
-    const { user } = useContext(UserContext);
-    const { emojisStyle, settings } = user;
+  const { user } = useContext(UserContext);
+  const { emojisStyle, settings } = user;
 
-    return (
-        <>
-            <StyledCategoryBadge
-                key={category.id}
-                label={<span style={{ fontWeight: "bold" }}>{category.name}</span>}
-                variant="outlined"
-                backgroundclr={category.color}
-                glow={settings[0].enableGlow}
-                translate="no"
-                avatar={
-                    category.emoji ? (
-                        <Avatar
-                            alt={category.name}
-                            sx={{
-                                background: "transparent",
-                                borderRadius: "0px",
-                            }}
-                        >
-                            {category.emoji &&
-                                (emojisStyle === EmojiStyle.NATIVE ? (
-                                    <div>
-                                        <Emoji
-                                            size={emojiSizes ? emojiSizes[1] : 18}
-                                            unified={category.emoji}
-                                            emojiStyle={EmojiStyle.NATIVE}
-                                        />
-                                    </div>
-                                ) : (
-                                    <Emoji
-                                        size={emojiSizes ? emojiSizes[0] : 20}
-                                        unified={category.emoji}
-                                        emojiStyle={emojisStyle}
-                                    />
-                                ))}
-                        </Avatar>
-                    ) : undefined
-                }
-                {...props}
-            />
-        </>
-    );
+  return (
+    <>
+      <StyledCategoryBadge
+        key={category.id}
+        label={<span style={{ fontWeight: "bold" }}>{category.name}</span>}
+        variant="outlined"
+        backgroundclr={category.color}
+        glow={settings[0].enableGlow}
+        translate="no"
+        avatar={
+          category.emoji ? (
+            <Avatar
+              alt={category.name}
+              sx={{
+                background: "transparent",
+                borderRadius: "0px",
+              }}
+            >
+              {category.emoji &&
+                (emojisStyle === EmojiStyle.NATIVE ? (
+                  <div>
+                    <Emoji
+                      size={emojiSizes ? emojiSizes[1] : 18}
+                      unified={category.emoji}
+                      emojiStyle={EmojiStyle.NATIVE}
+                    />
+                  </div>
+                ) : (
+                  <Emoji
+                    size={emojiSizes ? emojiSizes[0] : 20}
+                    unified={category.emoji}
+                    emojiStyle={emojisStyle}
+                  />
+                ))}
+            </Avatar>
+          ) : undefined
+        }
+        {...props}
+      />
+    </>
+  );
 };
 
 interface StyledBadgeProps {
-    backgroundclr?: string;
-    borderclr?: string;
-    glow?: boolean;
-    list?: boolean;
+  backgroundclr?: string;
+  borderclr?: string;
+  glow?: boolean;
+  list?: boolean;
 }
 
-export const StyledCategoryBadge = styled(Chip) <StyledBadgeProps>`
+export const StyledCategoryBadge = styled(Chip)<StyledBadgeProps>`
   color: ${({ backgroundclr }) => getFontColorFromHex(backgroundclr || "")};
   background-color: ${({ backgroundclr }) => backgroundclr};
   box-shadow: ${({ glow, backgroundclr }) => (glow ? `0 0 8px 0 ${backgroundclr}` : "none")};

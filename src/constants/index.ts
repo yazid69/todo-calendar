@@ -6,4 +6,5 @@ export {
     PROFILE_PICTURE_MAX_LENGTH,
     CATEGORY_NAME_MAX_LENGTH,
     MAX_CATEGORIES,
-} from "./constants";
+  } from "./constants";
+  

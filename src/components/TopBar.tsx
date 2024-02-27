@@ -4,20 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { ColorPalette } from "../styles";
 
 interface TopBarProps {
-    title: string;
+  title: string;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ title }) => {
-    const n = useNavigate();
-    const handleBackClick = () => n("/");
-    return (
-        <Container>
-            <BackBtn onClick={handleBackClick}>
-                <ArrowBackIosNew />
-            </BackBtn>
-            <Title>{title}</Title>
-        </Container>
-    );
+  const n = useNavigate();
+  const handleBackClick = () => n("/");
+  return (
+    <Container>
+      <BackBtn onClick={handleBackClick}>
+        <ArrowBackIosNew />
+      </BackBtn>
+      <Title>{title}</Title>
+    </Container>
+  );
 };
 
 const Container = styled.div`
