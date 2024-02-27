@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# TODO-APP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## URL App
+(Insert your app URL here)
 
-Currently, two official plugins are available:
+## ⚡ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📦 Local and Session Storage
+Save tasks locally and retain form data using session storage.
 
-## Expanding the ESLint configuration
+### 😜 Custom Emojis
+The app features different emoji styles to choose from, including Apple, Facebook, Twitter, Google, and Native.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 🔗 Share Tasks by Link
+Easily share your tasks with others using a link. <!-- [Example Link](#) -->
 
-- Configure the top-level `parserOptions` property like this:
+### 📱 Clean and Responsive Design
+Ensures smooth user experience on various devices.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### 🌐 Native Intl Integration
+Adapts to your language, timezone, and date preferences using the native Intl API.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 🗂️ Customizable Categories
+Users can create and personalize task categories to suit their preferences.
+
+### 🎨 Color Themes
+Users can choose from several app color themes.
+
+### 🗃️ Multi-Task Selection
+Option to select multiple tasks and perform actions on all of them at once.
+
+### 🔎 Search Tasks
+Search functionality allows you to filter tasks by name or description, making it easy to find what you need.
+
+### 🗣️ Task Reading Aloud
+Option to have tasks read aloud using the native SpeechSynthesis API, with a selection of voices to choose from.
+
+### 📥 Import/Export Tasks
+Users can import and export tasks to/from JSON files. This feature allows users to back up their tasks or transfer them to other devices easily. <!-- [Example Import File](#) -->
+
+### 📴 Works Offline
+This app is a Progressive Web App (PWA), which means it can be installed on your device and used even when you're offline. You can access and manage your tasks without an internet connection, ensuring uninterrupted productivity.
+
+## 💻 Tech Stack
+
+- React
+- Typescript
+- Vite
+- Emotion
+- MUI
