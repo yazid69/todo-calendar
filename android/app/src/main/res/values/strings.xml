@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">todo-calendar</string>
+    <string name="title_activity_main">todo-calendar</string>
+    <string name="package_name">com.todocalendar.app</string>
+    <string name="custom_url_scheme">com.todocalendar.app</string>
+</resources>
