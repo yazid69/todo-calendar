@@ -353,8 +353,8 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
       >
         <Done /> &nbsp;{" "}
         {tasks.find((task) => task.id === selectedTaskId)?.done
-          ? "Mark as not done"
-          : "Mark as done"}
+          ? "Marquer comme non fait"
+          : "Marquer comme fait"}
       </StyledMenuItem>
       <StyledMenuItem
         onClick={() => {
@@ -364,8 +364,8 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
       >
         <PushPinRounded /> &nbsp;{" "}
         {tasks.find((task) => task.id === selectedTaskId)?.pinned
-          ? "Unpin"
-          : "Pin"}
+          ? "Épingler"
+          : "Épingler"}
       </StyledMenuItem>
 
       {selectedTasks.length === 0 && (
