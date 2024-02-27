@@ -1,4 +1,4 @@
-# TODO-APP
+# TODO-CALENDAR
 
 ## URL App
 [todo-calendar-omega.vercel.app](https://todo-calendar-omega.vercel.app/)
