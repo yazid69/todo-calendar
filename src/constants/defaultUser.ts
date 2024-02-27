@@ -17,7 +17,7 @@ export const defaultUser: User = {
       doneToBottom: false,
       enableGlow: true,
       enableReadAloud: true,
-      voice: "Google UK English Male",
+      voice: "Google FR",
       voiceVolume: 0.6,
     },
   ],

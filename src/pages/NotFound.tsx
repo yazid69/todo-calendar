@@ -58,7 +58,6 @@ const Container = styled.div`
 const ErrorCode = styled.h1`
   font-size: 128px;
   color: ${ColorPalette.blueSky};
-  text-shadow: 0 0 32px #b624ffa9;
 `;
 
 const Description = styled.p`
