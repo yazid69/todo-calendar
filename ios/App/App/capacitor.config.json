@@ -1,0 +1,8 @@
+{
+	"appId": "com.todocalendar.app",
+	"appName": "todo-calendar",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https"
+	}
+}
