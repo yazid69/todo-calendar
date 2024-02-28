@@ -2,6 +2,7 @@ import {
   Cancel,
   ContentCopy,
   DeleteRounded,
+  GetAppRounded,
   Done,
   EditRounded,
   IosShare,
@@ -410,6 +411,16 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
       <StyledMenuItem onClick={handleDuplicateTask}>
         <ContentCopy /> &nbsp; Dupliquer
       </StyledMenuItem>
+
+      <StyledMenuItem
+        onClick={() => {
+          handleCloseMoreMenu();
+          n("/import-export");
+        }}
+      >
+        <GetAppRounded /> &nbsp; Exporter
+      </StyledMenuItem>
+
       <Divider />
       <StyledMenuItem
         clr={ColorPalette.red}

@@ -1,8 +1,6 @@
 import {
   AddRounded,
   CategoryRounded,
-  GetAppRounded,
-  PersonRounded,
   TaskAlt,
 } from "@mui/icons-material";
 import {
@@ -98,12 +96,6 @@ export const BottomNav = (): JSX.Element | null => {
           }
         />
         <NavigationButton
-          onClick={() => n("/categories")}
-          label="Catégories"
-          icon={<CategoryRounded sx={{ fontSize: smallIconSize }} />}
-          disabled={!settings[0].enableCategories}
-        />
-        <NavigationButton
           onClick={() => n("add")}
           showLabel={false}
           aria-label="Ajouter"
@@ -115,14 +107,10 @@ export const BottomNav = (): JSX.Element | null => {
           }
         />
         <NavigationButton
-          onClick={() => n("import-export")}
-          label="Transfer"
-          icon={<GetAppRounded sx={{ fontSize: smallIconSize }} />}
-        />
-        <NavigationButton
-          onClick={() => n("user")}
-          label="Profile"
-          icon={<PersonRounded sx={{ fontSize: smallIconSize }} />}
+          onClick={() => n("/categories")}
+          label="Catégories"
+          icon={<CategoryRounded sx={{ fontSize: smallIconSize }} />}
+          disabled={!settings[0].enableCategories}
         />
       </StyledBottomNavigation>
     </Container>
