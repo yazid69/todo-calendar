@@ -184,12 +184,12 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ fontWeight: 600 }}>Settings</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 600 }}>Paramètres</DialogTitle>
       <Container>
         {/* Select component to choose the emoji style */}
         <FormGroup>
           <FormControl>
-            <FormLabel>Emoji Settings</FormLabel>
+            <FormLabel>Paramètre des emojis</FormLabel>
             <StyledSelect value={emojisStyle} onChange={handleEmojiStyleChange} translate="no">
               {/* Show a disabled menu item when offline, indicating that the style can't be changed */}
               {!isOnline && (
@@ -202,7 +202,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                     fontWeight: 500,
                   }}
                 >
-                  <WifiOffRounded /> You can't change the emoji style <br /> when you are offline.
+                  <WifiOffRounded /> Vous ne pouvez pas changer le style d'emoji <br /> en mode hors ligne.
                 </MenuItem>
               )}
 
@@ -241,7 +241,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
 
         {/* Switch components to control different app settings */}
         <FormGroup>
-          <FormLabel>App Settings</FormLabel>
+          <FormLabel>Paramètres de l'app</FormLabel>
           <StyledFormLabel
             sx={{ opacity: userSettings.enableCategories ? 1 : 0.8 }}
             control={
@@ -250,19 +250,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                 onChange={handleSettingChange("enableCategories")}
               />
             }
-            label="Enable Categories"
-          />
-        </FormGroup>
-        <FormGroup>
-          <StyledFormLabel
-            sx={{ opacity: userSettings.enableGlow ? 1 : 0.8 }}
-            control={
-              <Switch
-                checked={userSettings.enableGlow}
-                onChange={handleSettingChange("enableGlow")}
-              />
-            }
-            label="Enable Glow Effect"
+            label="Activer les catégories"
           />
         </FormGroup>
         <FormGroup>
@@ -275,7 +263,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                 disabled={"speechSynthesis" in window ? false : true}
               />
             }
-            label="Enable Read Aloud"
+            label="Activer la lecture à haute voix"
           />
         </FormGroup>
         <FormGroup>
@@ -287,13 +275,13 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                 onChange={handleSettingChange("doneToBottom")}
               />
             }
-            label="Move Done Tasks To Bottom"
+            label="Déplacer les tâches terminées vers le bas"
           />
         </FormGroup>
         {settings[0].enableReadAloud && (
           <FormGroup>
             <FormControl>
-              <FormLabel>Voice Settings</FormLabel>
+              <FormLabel>Paramètres vocaux</FormLabel>
               <StyledFormLabel
                 sx={{ opacity: showLocalVoices ? 1 : 0.8, maxWidth: "300px" }}
                 control={
@@ -302,7 +290,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                     onChange={() => setShowLocalVoices((prev) => !prev)}
                   />
                 }
-                label={`Local language voices only (${getLanguageRegion(navigator.language)})`}
+                label={`Voix en langue locale uniquement (${getLanguageRegion(navigator.language)})`}
               />
               {filteredVoices.length !== 0 ? (
                 <StyledSelect
@@ -347,14 +335,14 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
                         <span style={{ fontWeight: 500 }}>{getLanguageRegion(voice.lang)}</span>
                       )}
                       {voice.default && !iOS && (
-                        <span style={{ fontWeight: 600 }}>&nbsp;Default</span>
+                        <span style={{ fontWeight: 600 }}>&nbsp;Défaut</span>
                       )}
                     </MenuItem>
                   ))}
                 </StyledSelect>
               ) : (
                 <NoVoiceStyles>
-                  There are no voice styles available.
+                  Il n'y a pas de style vocal disponible.
                   <Tooltip title="Refetch voices">
                     <IconButton
                       size="large"
@@ -409,7 +397,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         )}
       </Container>
       <DialogActions>
-        <DialogBtn onClick={onClose}>Close</DialogBtn>
+        <DialogBtn onClick={onClose}>Fermer</DialogBtn>
       </DialogActions>
     </Dialog>
   );

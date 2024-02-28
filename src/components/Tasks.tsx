@@ -379,6 +379,7 @@ export const Tasks: React.FC = () => {
         handleDeleteTask={handleDeleteTask}
         handleCloseMoreMenu={handleCloseMoreMenu}
         handleSelectTask={handleSelectTask}
+        setAnchorEl={setAnchorEl}
       />
       <TasksContainer>
         {user.tasks.length > 0 && (
@@ -651,7 +652,7 @@ export const Tasks: React.FC = () => {
                       gap: "4px",
                     }}
                   >
-                    <Link /> Partagé par {task.sharedBy}
+                     <Link /> Partagé {/*par {task.sharedBy} */}
                     {/* <Chip
                       avatar={<Avatar>{task.sharedBy[0]}</Avatar>}
                       label={task.sharedBy}

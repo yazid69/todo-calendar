@@ -92,7 +92,7 @@ const TaskDetails = () => {
             </TableRow>
             {task?.sharedBy && (
               <TableRow>
-                <TableHeader>Partagé par: </TableHeader>
+                <TableHeader>Partagé </TableHeader>
                 <TableData>{task.sharedBy}</TableData>
               </TableRow>
             )}

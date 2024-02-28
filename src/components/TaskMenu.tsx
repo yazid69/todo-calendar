@@ -15,6 +15,7 @@ import {
   RadioButtonChecked,
   RecordVoiceOver,
   RecordVoiceOverRounded,
+  SettingsRounded,
 } from "@mui/icons-material";
 import {
   Box,
@@ -48,6 +49,7 @@ import { Task } from "../types/user";
 import { formatDate } from "../utils/formatDate";
 import { calculateDateDifference } from "../utils/calculateDateDifference";
 import Marquee from "react-fast-marquee";
+import { SettingsDialog } from "./Settings";
 
 //TODO: Move all functions to TasksMenu component
 
@@ -59,6 +61,7 @@ interface TaskMenuProps {
   handleDeleteTask: () => void;
   handleCloseMoreMenu: () => void;
   handleSelectTask: (taskId: number) => void;
+  setAnchorEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>
 }
 
 export const TaskMenu: React.FC<TaskMenuProps> = ({
@@ -69,6 +72,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
   handleDeleteTask,
   handleCloseMoreMenu,
   handleSelectTask,
+  setAnchorEl,
 }) => {
   const { user, setUser } = useContext(UserContext);
   const { tasks, name, settings, emojisStyle } = user;
@@ -76,6 +80,9 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
   const [shareTabVal, setShareTabVal] = useState<number>(0);
   const isMobile = useResponsiveDisplay();
   const n = useNavigate();
+
+  const [openSettings, setOpenSettings] = useState<boolean>(false);
+  // const [test, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const redirectToTaskDetails = () => {
     const selectedTask = tasks.find((task) => task.id === selectedTaskId);
@@ -208,6 +215,11 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         }));
       }
     }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    document.getElementById("root")?.removeAttribute("aria-sidebar");
   };
 
   const handleReadAloud = () => {
@@ -421,6 +433,17 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         <GetAppRounded /> &nbsp; Exporter
       </StyledMenuItem>
 
+      <StyledMenuItem
+        clr={ColorPalette.fontDark}
+        onClick={() => {
+          setOpenSettings(true);
+          handleClose();
+        }}
+      >
+        <SettingsRounded /> &nbsp; Settings
+      </StyledMenuItem>
+      <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
+
       <Divider />
       <StyledMenuItem
         clr={ColorPalette.red}
@@ -504,7 +527,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
             onChange={handleTabChange}
             sx={{ m: "8px 0" }}
           >
-            <StyledTab label="Link" icon={<LinkRounded />} />
+            <StyledTab label="Lien" icon={<LinkRounded />} />
             <StyledTab label="QR Code" icon={<QrCode2Rounded />} />
           </Tabs>
           <CustomTabPanel value={shareTabVal} index={0}>
@@ -512,7 +535,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
               value={generateShareableLink(selectedTaskId, name || "User")}
               fullWidth
               variant="outlined"
-              label="Shareable Link"
+              label="Lien partageable"
               InputProps={{
                 readOnly: true,
                 endAdornment: (
