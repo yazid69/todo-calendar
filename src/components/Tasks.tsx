@@ -385,7 +385,7 @@ export const Tasks: React.FC = () => {
           <SearchInput
             focused
             color="primary"
-            placeholder="Search for task..."
+            placeholder="Recherche de tâches..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);

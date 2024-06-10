@@ -9,10 +9,10 @@ export const calculateDateDifference = (date: Date): string => {
   const differenceHours = Math.floor(difference / (1000 * 60 * 60));
   const differenceMinutes = Math.floor(difference / (1000 * 60));
 
-  const userLocale = navigator.language || "en-US";
+  const userLocale = navigator.language || "fr-FR";
 
   if (targetDate < currentDate) {
-    return `Not completed on time (${timeAgo(targetDate)})`;
+    return `Les tâches ne sont pas terminées à temps (${timeAgo(targetDate)})`;
   } else if (targetDate.toDateString() === currentDate.toDateString()) {
     if (differenceHours > 0) {
       return new Intl.RelativeTimeFormat(userLocale, { numeric: "auto" }).format(
