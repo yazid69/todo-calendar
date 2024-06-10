@@ -7,24 +7,24 @@ import { UserContext } from "../contexts/UserContext";
  * @returns {void}
  */
 export const useCtrlS = (): void => {
-    // prettier-ignore
-    const { user: { tasks } } = useContext(UserContext);
-    // Check if the key combination is Ctrl + S
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if ((e.key === "s" || e.key === "S") && (e.ctrlKey || e.metaKey)) {
-            // Prevent the default browser save dialog
-            e.preventDefault();
-            const userConfirmed = window.confirm("Do you want to save all tasks to JSON?");
-            if (userConfirmed) {
-                exportTasksToJson(tasks);
-            }
-        }
+  // prettier-ignore
+  const { user: { tasks } } = useContext(UserContext);
+  // Check if the key combination is Ctrl + S
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if ((e.key === "s" || e.key === "S") && (e.ctrlKey || e.metaKey)) {
+      // Prevent the default browser save dialog
+      e.preventDefault();
+      const userConfirmed = window.confirm("Do you want to save all tasks to JSON?");
+      if (userConfirmed) {
+        exportTasksToJson(tasks);
+      }
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    // Remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
     };
-    useEffect(() => {
-        document.addEventListener("keydown", handleKeyDown);
-        // Remove the event listener when the component unmounts
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [handleKeyDown]);
+  }, [handleKeyDown]);
 };

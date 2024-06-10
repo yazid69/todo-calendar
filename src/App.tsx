@@ -9,11 +9,14 @@ import { Toaster } from "react-hot-toast";
 import { useResponsiveDisplay } from "./hooks/useResponsiveDisplay";
 import { UserContext } from "./contexts/UserContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   const [user, setUser] = useStorageState<User>(defaultUser, "user");
   const isMobile = useResponsiveDisplay();
 
+  // Initialize user properties if they are undefined
+  // this allows to add new properties to the user object without error
   useEffect(() => {
     const updateNestedProperties = (userObject: any, defaultObject: any) => {
       if (!userObject) {
@@ -93,9 +96,9 @@ function App() {
         />
         <UserContext.Provider value={{ user, setUser }}>
           <ErrorBoundary>
-            {/* <MainLayout> */}
-            <AppRouter />
-            {/* </MainLayout> */}
+            <MainLayout>
+              <AppRouter />
+            </MainLayout>
           </ErrorBoundary>
         </UserContext.Provider>
       </ThemeProvider>

@@ -1,127 +1,3 @@
-// import { useState } from 'react';
-// import TaskAltIcon from '@mui/icons-material/TaskAlt';
-// import AddIcon from '@mui/icons-material/Add';
-// import CategoryIcon from '@mui/icons-material/Category';
-// import DownloadIcon from '@mui/icons-material/Download';
-
-// function Tasks() {
-//     const [isHovered, setIsHovered] = useState(false);
-//     const [isAddHovered, setIsAddHovered] = useState(false);
-//     const [isCategoryHovered, setIsCategoryHovered] = useState(false);
-
-//     const handleTaskClick = () => {
-//         alert('Mes tâches');
-//         // Remplacez cette ligne par la logique d'affichage des tâches
-//     };
-
-//     const handleAddClick = () => {
-//         alert('Ajouter des tâches');
-//         // Remplacez cette ligne par la logique d'ajout des tâches
-//     };
-
-//     const handleCategoryClick = () => {
-//         alert('Afficher les catégories');
-//         // Remplacez cette ligne par la logique d'affichage des catégories
-//     };
-
-//     return (
-//         <div>
-//             <div
-//                 onClick={handleTaskClick}
-//                 onMouseEnter={() => setIsHovered(true)}
-//                 onMouseLeave={() => setIsHovered(false)}
-//                 style={{
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     backgroundColor: isHovered ? 'lightgray' : 'transparent',
-//                     padding: '10px',
-//                     cursor: 'pointer',
-//                     width: '90%',
-//                     margin: 'auto',
-//                     borderRadius: '10px'
-//                 }}
-//             >
-//                 <TaskAltIcon style={{ marginRight: '20px' }} />
-//                 <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Mes tâches</span>
-//             </div>
-//             <div
-//                 onClick={handleAddClick}
-//                 onMouseEnter={() => setIsAddHovered(true)}
-//                 onMouseLeave={() => setIsAddHovered(false)}
-//                 style={{
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     backgroundColor: isAddHovered ? 'lightgray' : 'transparent',
-//                     padding: '10px',
-//                     cursor: 'pointer',
-//                     width: '90%',
-//                     margin: 'auto',
-//                     borderRadius: '10px'
-//                 }}
-//             >
-//                 <AddIcon style={{ marginRight: '20px' }} />
-//                 <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Ajouter des tâches</span>
-//             </div>
-//             <div
-//                 onClick={handleCategoryClick}
-//                 onMouseEnter={() => setIsCategoryHovered(true)}
-//                 onMouseLeave={() => setIsCategoryHovered(false)}
-//                 style={{
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     backgroundColor: isCategoryHovered ? 'lightgray' : 'transparent',
-//                     padding: '10px',
-//                     cursor: 'pointer',
-//                     width: '90%',
-//                     margin: 'auto',
-//                     borderRadius: '10px'
-
-//                 }}
-//             >
-//                 <CategoryIcon style={{ marginRight: '20px' }} />
-//                 <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Mes tâches</span>
-//             </div>
-//             <div
-//                 onClick={handleAddClick}
-//                 onMouseEnter={() => setIsAddHovered(true)}
-//                 onMouseLeave={() => setIsAddHovered(false)}
-//                 style={{
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     backgroundColor: isAddHovered ? 'lightgray' : 'transparent',
-//                     padding: '10px',
-//                     cursor: 'pointer',
-//                     width: '90%',
-//                     margin: 'auto',
-//                     borderRadius: '10px'
-//                 }}
-//             >
-//                 <DownloadIcon style={{ marginRight: '20px' }} />
-//                 <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Import/Export</span>
-//             </div >
-//             <div
-//                 onClick={handleAddClick}
-//                 onMouseEnter={() => setIsAddHovered(true)}
-//                 onMouseLeave={() => setIsAddHovered(false)}
-//                 style={{
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     backgroundColor: isAddHovered ? 'lightgray' : 'transparent',
-//                     padding: '10px',
-//                     cursor: 'pointer',
-//                     width: '90%',
-//                     margin: 'auto',
-//                     borderRadius: '10px'
-//                 }}
-//             >
-//             </div >
-//         </div >
-
-//     );
-// }
-
-// export default Tasks;
-
 import { Category, Task } from "../types/user";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import {
@@ -182,7 +58,6 @@ import { getFontColorFromHex } from "../utils/getFontColorFromHex";
 import { iOS } from "../utils/iOS";
 import { formatDate } from "../utils/formatDate";
 import { calculateDateDifference } from "../utils/calculateDateDifference";
-import { ListFormat } from "intl";
 /**
  * Component to display a list of tasks.
  */
@@ -304,7 +179,7 @@ export const Tasks: React.FC = () => {
             setDeleteDialogOpen(false);
             toast.success((t) => (
                 <div onClick={() => toast.dismiss(t.id)}>
-                    Deleted Task -{" "}
+                    Tâche supprimée -{" "}
                     <b>{user.tasks.find((task) => task.id === selectedTaskId)?.name}</b>
                 </div>
             ));
@@ -463,8 +338,7 @@ export const Tasks: React.FC = () => {
 
         if (overdueTasks.length > 0) {
             const taskNames = overdueTasks.map((task) => task.name);
-
-            const formatTasksArray = new ListFormat("fr-FR", {
+            const formatTasksArray = new Intl.ListFormat("fr-FR", {
                 style: "long",
                 type: "conjunction",
             });
@@ -477,13 +351,13 @@ export const Tasks: React.FC = () => {
                         style={{ wordBreak: "break-word" }}
                     >
                         <b translate="yes">
-                            Overdue task{overdueTasks.length > 1 && "s"}:{" "}
+                            Tâche en retard{overdueTasks.length > 1 && "s"}:{" "}
                         </b>
                         {formatTasksArray.format(taskNames)}
                     </div>
                 ),
                 {
-                    duration: 3400,
+                    duration: 4000,
                     icon: <RingAlarm animate sx={{ color: ColorPalette.red }} />,
                 }
             );
@@ -504,6 +378,7 @@ export const Tasks: React.FC = () => {
                 handleDeleteTask={handleDeleteTask}
                 handleCloseMoreMenu={handleCloseMoreMenu}
                 handleSelectTask={handleSelectTask}
+                setAnchorEl={setAnchorEl}
             />
             <TasksContainer>
                 {user.tasks.length > 0 && (
@@ -592,8 +467,8 @@ export const Tasks: React.FC = () => {
                     <SelectedTasksContainer>
                         <div>
                             <h3 style={{ margin: 0, display: "flex", alignItems: "center" }}>
-                                <RadioButtonChecked /> &nbsp; Selected {selectedTasks.length}{" "}
-                                task
+                                <RadioButtonChecked /> &nbsp; Tâche {selectedTasks.length}{" "}
+                                sélectionnée
                                 {selectedTasks.length > 1 ? "s" : ""}
                             </h3>
                             <span style={{ fontSize: "14px", opacity: 0.8 }}>
@@ -649,7 +524,7 @@ export const Tasks: React.FC = () => {
                             }}
                         >
                             <b>
-                                Found {reorderTasks(user.tasks).length} task
+                                Tâche {reorderTasks(user.tasks).length} trouvée
                                 {reorderTasks(user.tasks).length > 1 ? "s" : ""}
                             </b>
                         </div>
@@ -709,7 +584,7 @@ export const Tasks: React.FC = () => {
                             <TaskInfo translate="no">
                                 {task.pinned && (
                                     <Pinned translate="yes">
-                                        <PushPinRounded fontSize="small" /> &nbsp; Pinned
+                                        <PushPinRounded fontSize="small" /> &nbsp; Épinglé
                                     </Pinned>
                                 )}
                                 <TaskHeader>
@@ -741,7 +616,7 @@ export const Tasks: React.FC = () => {
                                                 onClick={() => toggleShowMore(task.id)}
                                                 clr={task.color}
                                             >
-                                                {expandedTasks.has(task.id) ? "Show less" : "Show more"}
+                                                {expandedTasks.has(task.id) ? "moins" : "plus"}
                                             </ShowMoreBtn>
                                         )}
                                 </TaskDescription>
@@ -776,7 +651,7 @@ export const Tasks: React.FC = () => {
                                             gap: "4px",
                                         }}
                                     >
-                                        <Link /> Shared by {task.sharedBy}
+                                        <Link /> Partagé {/*par {task.sharedBy} */}
                                         {/* <Chip
                       avatar={<Avatar>{task.sharedBy[0]}</Avatar>}
                       label={task.sharedBy}
@@ -836,9 +711,9 @@ export const Tasks: React.FC = () => {
                                 marginTop: "18px",
                             }}
                         >
-                            <b>No tasks found</b>
+                            <b>Aucune tâche trouvée</b>
                             <br />
-                            Try searching with different keywords.
+                            Essayez de faire une recherche avec des mots-clés différents.
                         </div>
                     )}
                 <EditTask
@@ -869,7 +744,7 @@ export const Tasks: React.FC = () => {
                     },
                 }}
             >
-                <DialogTitle>Are you sure you want to delete the task?</DialogTitle>
+                <DialogTitle>Êtes-vous sûr de vouloir supprimer la tâche ?</DialogTitle>
                 <DialogContent>
                     {user.tasks.find((task) => task.id === selectedTaskId)?.emoji !==
                         undefined && (
@@ -893,13 +768,13 @@ export const Tasks: React.FC = () => {
                             </p>
                         )}
                     <p>
-                        <b>Task Name:</b>{" "}
+                        <b>Nom de la tâche :</b>{" "}
                         {user.tasks.find((task) => task.id === selectedTaskId)?.name}
                     </p>
                     {user.tasks.find((task) => task.id === selectedTaskId)
                         ?.description !== undefined && (
                             <p>
-                                <b>Task Description:</b>{" "}
+                                <b>Description de la tâche :</b>{" "}
                                 {
                                     user.tasks.find((task) => task.id === selectedTaskId)
                                         ?.description
@@ -911,7 +786,7 @@ export const Tasks: React.FC = () => {
                         user.tasks.find((task) => task.id === selectedTaskId)?.category?.[0]
                             ?.name !== undefined && (
                             <p>
-                                <b>Category:</b>{" "}
+                                <b>Catégorie :</b>{" "}
                                 {user.tasks
                                     .find((task) => task.id === selectedTaskId)
                                     ?.category?.map((cat) => cat.name)
@@ -921,10 +796,10 @@ export const Tasks: React.FC = () => {
                 </DialogContent>
                 <DialogActions>
                     <DialogBtn onClick={cancelDeleteTask} color="primary">
-                        Cancel
+                        Annuler
                     </DialogBtn>
                     <DialogBtn onClick={confirmDeleteTask} color="error">
-                        Delete
+                        Supprimer
                     </DialogBtn>
                 </DialogActions>
             </Dialog>

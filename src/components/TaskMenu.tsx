@@ -2,6 +2,7 @@ import {
     Cancel,
     ContentCopy,
     DeleteRounded,
+    GetAppRounded,
     Done,
     EditRounded,
     IosShare,
@@ -14,6 +15,7 @@ import {
     RadioButtonChecked,
     RecordVoiceOver,
     RecordVoiceOverRounded,
+    SettingsRounded,
 } from "@mui/icons-material";
 import {
     Box,
@@ -47,7 +49,7 @@ import { Task } from "../types/user";
 import { formatDate } from "../utils/formatDate";
 import { calculateDateDifference } from "../utils/calculateDateDifference";
 import Marquee from "react-fast-marquee";
-
+import { SettingsDialog } from "./Settings";
 
 //TODO: Move all functions to TasksMenu component
 
@@ -59,6 +61,7 @@ interface TaskMenuProps {
     handleDeleteTask: () => void;
     handleCloseMoreMenu: () => void;
     handleSelectTask: (taskId: number) => void;
+    setAnchorEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>
 }
 
 export const TaskMenu: React.FC<TaskMenuProps> = ({
@@ -69,6 +72,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
     handleDeleteTask,
     handleCloseMoreMenu,
     handleSelectTask,
+    setAnchorEl,
 }) => {
     const { user, setUser } = useContext(UserContext);
     const { tasks, name, settings, emojisStyle } = user;
@@ -77,13 +81,19 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
     const isMobile = useResponsiveDisplay();
     const n = useNavigate();
 
+    const [openSettings, setOpenSettings] = useState<boolean>(false);
+    // const [test, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const redirectToTaskDetails = () => {
         const selectedTask = tasks.find((task) => task.id === selectedTaskId);
         const taskId = selectedTask?.id.toString().replace(".", "");
         n(`/task/${taskId}`);
     };
     //TODO: add bitly api
-    const generateShareableLink = (taskId: number | null, userName: string): string => {
+    const generateShareableLink = (
+        taskId: number | null,
+        userName: string
+    ): string => {
         const task = tasks.find((task) => task.id === taskId);
         if (task) {
             const encodedTask = encodeURIComponent(JSON.stringify(task));
@@ -100,7 +110,9 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
             .writeText(linkToCopy)
             .then(() => {
                 toast.success((t) => (
-                    <div onClick={() => toast.dismiss(t.id)}>Copied link to clipboard</div>
+                    <div onClick={() => toast.dismiss(t.id)}>
+                        Copie du lien dans le presse-papiers
+                    </div>
                 ));
             })
 
@@ -115,15 +127,16 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         if (navigator.share) {
             navigator
                 .share({
-                    title: "Share Task",
-                    text: `Check out this task: ${tasks.find((task) => task.id === selectedTaskId)?.name}`,
+                    title: "Partager la tâche",
+                    text: `Vérifier cette tâche: ${tasks.find((task) => task.id === selectedTaskId)?.name
+                        }`,
                     url: linkToShare,
                 })
                 .then(() => {
-                    console.log("Link shared successfully");
+                    console.log("Lien partagé avec succès");
                 })
                 .catch((error) => {
-                    console.error("Error sharing link:", error);
+                    console.error("Erreur de partage de lien:", error);
                     // toast.error("Error sharing link");
                 });
         }
@@ -149,9 +162,9 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                 toast.success(
                     (t) => (
                         <div onClick={() => toast.dismiss(t.id)}>
-                            <b>All tasks done</b>
+                            <b>Toutes les tâches sont accomplies</b>
                             <br />
-                            <span>You've checked off all your todos. Well done!</span>
+                            <span>Vous avez fait le tour de vos tâches. Bravo !!!</span>
                         </div>
                     ),
                     {
@@ -203,6 +216,11 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         }
     };
 
+    const handleClose = () => {
+        setAnchorEl(null);
+        document.getElementById("root")?.removeAttribute("aria-sidebar");
+    };
+
     const handleReadAloud = () => {
         const selectedTask = tasks.find((task) => task.id === selectedTaskId);
         const voices = window.speechSynthesis.getVoices();
@@ -212,12 +230,15 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         const taskDescription = selectedTask?.description || "";
         const taskDate = formatDate(new Date(selectedTask?.date || ""));
         const taskDeadline = selectedTask?.deadline
-            ? ". Task Deadline: " + calculateDateDifference(new Date(selectedTask.deadline) || "")
+            ? ". Task Deadline: " +
+            calculateDateDifference(new Date(selectedTask.deadline) || "")
             : "";
 
         const textToRead = `${taskName}. ${taskDescription}. Date: ${taskDate}${taskDeadline}`;
 
-        const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(textToRead);
+        const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(
+            textToRead
+        );
 
         if (voiceName) {
             utterThis.voice = voiceName;
@@ -263,10 +284,10 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                                 fontWeight: 600,
                             }}
                         >
-                            <RecordVoiceOver /> &nbsp; Speaking: {selectedTask?.name}
+                            <RecordVoiceOver /> &nbsp; Parler: {selectedTask?.name}
                         </span>
                         <span style={{ marginTop: "10px", fontSize: "16px" }}>
-                            Voice: {utterThis.voice?.name || "Default"}
+                            Voix: {utterThis.voice?.name || "Default"}
                         </span>
                         <div>
                             <Marquee delay={0.6} play={isPlaying}>
@@ -344,8 +365,8 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
             >
                 <Done /> &nbsp;{" "}
                 {tasks.find((task) => task.id === selectedTaskId)?.done
-                    ? "Mark as not done"
-                    : "Mark as done"}
+                    ? "Marquer comme non fait"
+                    : "Marquer comme fait"}
             </StyledMenuItem>
             <StyledMenuItem
                 onClick={() => {
@@ -354,25 +375,29 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                 }}
             >
                 <PushPinRounded /> &nbsp;{" "}
-                {tasks.find((task) => task.id === selectedTaskId)?.pinned ? "Unpin" : "Pin"}
+                {tasks.find((task) => task.id === selectedTaskId)?.pinned
+                    ? "Épingler"
+                    : "Épingler"}
             </StyledMenuItem>
 
             {selectedTasks.length === 0 && (
                 <StyledMenuItem onClick={() => handleSelectTask(selectedTaskId || 0)}>
-                    <RadioButtonChecked /> &nbsp; Select
+                    <RadioButtonChecked /> &nbsp; Sélectionner
                 </StyledMenuItem>
             )}
 
             <StyledMenuItem onClick={redirectToTaskDetails}>
-                <LaunchRounded /> &nbsp; Task details
+                <LaunchRounded /> &nbsp; Détails de la tâche
             </StyledMenuItem>
 
             {settings[0].enableReadAloud && (
                 <StyledMenuItem
                     onClick={handleReadAloud}
-                    disabled={window.speechSynthesis.speaking || window.speechSynthesis.pending}
+                    disabled={
+                        window.speechSynthesis.speaking || window.speechSynthesis.pending
+                    }
                 >
-                    <RecordVoiceOverRounded /> &nbsp; Read Aloud
+                    <RecordVoiceOverRounded /> &nbsp; Lire à haute voix
                 </StyledMenuItem>
             )}
 
@@ -382,7 +407,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                     setShowShareDialog(true);
                 }}
             >
-                <LinkRounded /> &nbsp; Share
+                <LinkRounded /> &nbsp; Partager
             </StyledMenuItem>
 
             <Divider />
@@ -392,11 +417,32 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                     setEditModalOpen(true);
                 }}
             >
-                <EditRounded /> &nbsp; Edit
+                <EditRounded /> &nbsp; Modifier
             </StyledMenuItem>
             <StyledMenuItem onClick={handleDuplicateTask}>
-                <ContentCopy /> &nbsp; Duplicate
+                <ContentCopy /> &nbsp; Dupliquer
             </StyledMenuItem>
+
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    n("/import-export");
+                }}
+            >
+                <GetAppRounded /> &nbsp; Exporter
+            </StyledMenuItem>
+
+            <StyledMenuItem
+                clr={ColorPalette.fontDark}
+                onClick={() => {
+                    setOpenSettings(true);
+                    handleClose();
+                }}
+            >
+                <SettingsRounded /> &nbsp; Settings
+            </StyledMenuItem>
+            <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
+
             <Divider />
             <StyledMenuItem
                 clr={ColorPalette.red}
@@ -405,7 +451,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                     handleDeleteTask();
                 }}
             >
-                <DeleteRounded /> &nbsp; Delete
+                <DeleteRounded /> &nbsp; Supprimer
             </StyledMenuItem>
         </div>
     );
@@ -426,7 +472,9 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                             <Emoji
                                 emojiStyle={emojisStyle}
                                 size={32}
-                                unified={tasks.find((task) => task.id === selectedTaskId)?.emoji || ""}
+                                unified={
+                                    tasks.find((task) => task.id === selectedTaskId)?.emoji || ""
+                                }
                             />{" "}
                             {emojisStyle === EmojiStyle.NATIVE && "\u00A0 "}
                             {tasks.find((task) => task.id === selectedTaskId)?.name}
@@ -467,13 +515,18 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                     },
                 }}
             >
-                <DialogTitle>Share Task</DialogTitle>
+                <DialogTitle>Partager la tâche</DialogTitle>
                 <DialogContent>
                     <span>
-                        Share Task: <b>{tasks.find((task) => task.id === selectedTaskId)?.name}</b>
+                        Partager la tâche :{" "}
+                        <b>{tasks.find((task) => task.id === selectedTaskId)?.name}</b>
                     </span>
-                    <Tabs value={shareTabVal} onChange={handleTabChange} sx={{ m: "8px 0" }}>
-                        <StyledTab label="Link" icon={<LinkRounded />} />
+                    <Tabs
+                        value={shareTabVal}
+                        onChange={handleTabChange}
+                        sx={{ m: "8px 0" }}
+                    >
+                        <StyledTab label="Lien" icon={<LinkRounded />} />
                         <StyledTab label="QR Code" icon={<QrCode2Rounded />} />
                     </Tabs>
                     <CustomTabPanel value={shareTabVal} index={0}>
@@ -481,7 +534,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                             value={generateShareableLink(selectedTaskId, name || "User")}
                             fullWidth
                             variant="outlined"
-                            label="Shareable Link"
+                            label="Lien partageable"
                             InputProps={{
                                 readOnly: true,
                                 endAdornment: (
@@ -492,7 +545,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                                             }}
                                             sx={{ padding: "8px 12px", borderRadius: "12px" }}
                                         >
-                                            <ContentCopy /> &nbsp; Copy
+                                            <ContentCopy /> &nbsp; Copie
                                         </Button>
                                     </InputAdornment>
                                 ),
@@ -512,14 +565,19 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
                                 marginTop: "22px",
                             }}
                         >
-                            <QRCode value={generateShareableLink(selectedTaskId, name || "User")} size={384} />
+                            <QRCode
+                                value={generateShareableLink(selectedTaskId, name || "User")}
+                                size={384}
+                            />
                         </Box>
                     </CustomTabPanel>
                 </DialogContent>
                 <DialogActions>
-                    <DialogBtn onClick={() => setShowShareDialog(false)}>Close</DialogBtn>
+                    <DialogBtn onClick={() => setShowShareDialog(false)}>
+                        Fermer
+                    </DialogBtn>
                     <DialogBtn onClick={handleShare}>
-                        <IosShare sx={{ mb: "4px" }} /> &nbsp; Share
+                        <IosShare sx={{ mb: "4px" }} /> &nbsp; Partager
                     </DialogBtn>
                 </DialogActions>
             </Dialog>
@@ -551,56 +609,56 @@ function CustomTabPanel(props: TabPanelProps) {
     );
 }
 const SheetHeader = styled.h3`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    color: ${ColorPalette.fontDark};
-    margin: 10px;
-    font-size: 20px;
-  `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: ${ColorPalette.fontDark};
+  margin: 10px;
+  font-size: 20px;
+`;
 
 const SheetContent = styled.div`
-    color: ${ColorPalette.fontDark};
-    margin: 20px 10px;
-    & .MuiMenuItem-root {
-      font-size: 16px;
-      padding: 16px;
-      &::before {
-        content: "";
-        display: inline-block;
-        margin-right: 10px;
-      }
+  color: ${ColorPalette.fontDark};
+  margin: 20px 10px;
+  & .MuiMenuItem-root {
+    font-size: 16px;
+    padding: 16px;
+    &::before {
+      content: "";
+      display: inline-block;
+      margin-right: 10px;
     }
-  `;
+  }
+`;
 const StyledMenuItem = styled(MenuItem) <{ clr?: string }>`
-    margin: 0 6px;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: none;
-    gap: 2px;
-    color: ${({ clr }) => clr || ColorPalette.fontDark};
-  
-    &:hover {
-      background-color: #f0f0f0;
-    }
-  `;
+  margin: 0 6px;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: none;
+  gap: 2px;
+  color: ${({ clr }) => clr || ColorPalette.fontDark};
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
 
 const ShareField = styled(TextField)`
-    margin-top: 22px;
-    .MuiOutlinedInput-root {
-      border-radius: 14px;
-      transition: 0.3s all;
-    }
-  `;
+  margin-top: 22px;
+  .MuiOutlinedInput-root {
+    border-radius: 14px;
+    transition: 0.3s all;
+  }
+`;
 
 const StyledTab = styled(Tab)`
-    border-radius: 12px 12px 0 0;
-    width: 50%;
-    .MuiTabs-indicator {
-      border-radius: 24px;
-    }
-  `;
+  border-radius: 12px 12px 0 0;
+  width: 50%;
+  .MuiTabs-indicator {
+    border-radius: 24px;
+  }
+`;
 StyledTab.defaultProps = {
     iconPosition: "start",
 };

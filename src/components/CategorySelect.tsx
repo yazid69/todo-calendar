@@ -12,127 +12,127 @@ import { ExpandMoreRounded } from "@mui/icons-material";
 import { CategoryBadge } from "./CategoryBadge";
 
 interface CategorySelectProps {
-    // variant?: "standard" | "outlined" | "filled";
-    width?: CSSProperties["width"];
-    fontColor?: CSSProperties["color"];
-    selectedCategories: Category[];
-    setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  // variant?: "standard" | "outlined" | "filled";
+  width?: CSSProperties["width"];
+  fontColor?: CSSProperties["color"];
+  selectedCategories: Category[];
+  setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }
 /**
  * Component for selecting categories with emojis.
  */
 
 export const CategorySelect: React.FC<CategorySelectProps> = ({
-    width,
-    fontColor,
-    selectedCategories,
-    setSelectedCategories,
+  width,
+  fontColor,
+  selectedCategories,
+  setSelectedCategories,
 }) => {
-    const { user } = useContext(UserContext);
-    const { categories, emojisStyle } = user;
+  const { user } = useContext(UserContext);
+  const { categories, emojisStyle } = user;
 
-    const handleCategoryChange = (event: SelectChangeEvent<unknown>): void => {
-        const selectedCategoryIds = event.target.value as number[];
+  const handleCategoryChange = (event: SelectChangeEvent<unknown>): void => {
+    const selectedCategoryIds = event.target.value as number[];
 
-        if (selectedCategoryIds.length > MAX_CATEGORIES) {
-            toast.error(
-                (t) => (
-                    <div onClick={() => toast.dismiss(t.id)}>
-                        You cannot add more than {MAX_CATEGORIES} categories
-                    </div>
-                ),
-                {
-                    position: "top-center",
-                }
-            );
-            return;
+    if (selectedCategoryIds.length > MAX_CATEGORIES) {
+      toast.error(
+        (t) => (
+          <div onClick={() => toast.dismiss(t.id)}>
+            You cannot add more than {MAX_CATEGORIES} categories
+          </div>
+        ),
+        {
+          position: "top-center",
         }
+      );
+      return;
+    }
 
-        const selectedCategories = categories.filter((cat) => selectedCategoryIds.includes(cat.id));
-        setSelectedCategories(selectedCategories);
-    };
+    const selectedCategories = categories.filter((cat) => selectedCategoryIds.includes(cat.id));
+    setSelectedCategories(selectedCategories);
+  };
 
-    return (
-        <FormControl sx={{ width: width || "100%" }}>
-            <FormLabel
-                sx={{
-                    color: fontColor ? fontColor + "e8" : ColorPalette.fontLight + "e8",
-                    marginLeft: "8px",
-                    fontWeight: 500,
-                }}
+  return (
+    <FormControl sx={{ width: width || "100%" }}>
+      <FormLabel
+        sx={{
+          color: fontColor ? fontColor + "e8" : ColorPalette.fontLight + "e8",
+          marginLeft: "8px",
+          fontWeight: 500,
+        }}
+      >
+        Category
+      </FormLabel>
+      <StyledSelect
+        multiple
+        width={width}
+        value={selectedCategories.map((cat) => cat.id)}
+        onChange={handleCategoryChange}
+        IconComponent={() => (
+          <ExpandMoreRounded
+            sx={{ marginRight: "14px", color: fontColor || ColorPalette.fontLight }}
+          />
+        )}
+        sx={{ zIndex: 999 }}
+        renderValue={() => (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: "4px 8px" }}>
+            {selectedCategories.map((category) => (
+              <CategoryBadge
+                key={category.id}
+                category={category}
+                sx={{ cursor: "pointer" }}
+                glow={false}
+              />
+            ))}
+          </Box>
+        )}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: 450,
+              zIndex: 999999,
+              padding: "0px 8px",
+              background: "white",
+            },
+          },
+        }}
+      >
+        <MenuItem
+          disabled
+          sx={{
+            opacity: "1 !important",
+            fontWeight: 500,
+            position: "sticky !important",
+            top: 0,
+            background: "white",
+            zIndex: 99,
+            pointerEvents: "none",
+          }}
+        >
+          Select Categories (max {MAX_CATEGORIES})
+        </MenuItem>
+
+        {categories && categories.length > 0 ? (
+          categories.map((category) => (
+            <CategoriesMenu
+              key={category.id}
+              value={category.id}
+              clr={category.color}
+              translate="no"
             >
-                Category
-            </FormLabel>
-            <StyledSelect
-                multiple
-                width={width}
-                value={selectedCategories.map((cat) => cat.id)}
-                onChange={handleCategoryChange}
-                IconComponent={() => (
-                    <ExpandMoreRounded
-                        sx={{ marginRight: "14px", color: fontColor || ColorPalette.fontLight }}
-                    />
-                )}
-                sx={{ zIndex: 999 }}
-                renderValue={() => (
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: "4px 8px" }}>
-                        {selectedCategories.map((category) => (
-                            <CategoryBadge
-                                key={category.id}
-                                category={category}
-                                sx={{ cursor: "pointer" }}
-                                glow={false}
-                            />
-                        ))}
-                    </Box>
-                )}
-                MenuProps={{
-                    PaperProps: {
-                        style: {
-                            maxHeight: 450,
-                            zIndex: 999999,
-                            padding: "0px 8px",
-                            background: "white",
-                        },
-                    },
-                }}
-            >
-                <MenuItem
-                    disabled
-                    sx={{
-                        opacity: "1 !important",
-                        fontWeight: 500,
-                        position: "sticky !important",
-                        top: 0,
-                        background: "white",
-                        zIndex: 99,
-                        pointerEvents: "none",
-                    }}
-                >
-                    Select Categories (max {MAX_CATEGORIES})
-                </MenuItem>
-
-                {categories && categories.length > 0 ? (
-                    categories.map((category) => (
-                        <CategoriesMenu
-                            key={category.id}
-                            value={category.id}
-                            clr={category.color}
-                            translate="no"
-                        >
-                            {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
-                            &nbsp;
-                            {category.name}
-                        </CategoriesMenu>
-                    ))
-                ) : (
-                    <MenuItem disabled sx={{ opacity: "1 !important" }}>
-                        You don't have any categories
-                    </MenuItem>
-                )}
-            </StyledSelect>
-        </FormControl>
-    );
+              {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
+              &nbsp;
+              {category.name}
+            </CategoriesMenu>
+          ))
+        ) : (
+          <MenuItem disabled sx={{ opacity: "1 !important" }}>
+            You don't have any categories
+          </MenuItem>
+        )}
+      </StyledSelect>
+    </FormControl>
+  );
 };
 
 const StyledSelect = styled(Select) <{ width?: CSSProperties["width"] }>`
