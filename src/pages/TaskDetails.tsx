@@ -53,7 +53,7 @@ const TaskDetails = () => {
             </TableRow>
 
             <TableRow>
-              <TableHeader>Déscription:</TableHeader>
+              <TableHeader>Description:</TableHeader>
               <TableData>{task?.description}</TableData>
             </TableRow>
             <TableRow>
@@ -63,7 +63,7 @@ const TaskDetails = () => {
               </TableData>
             </TableRow>
             <TableRow>
-              <TableHeader>Créée:</TableHeader>
+              <TableHeader>Crée:</TableHeader>
               <TableData>{new Date(task?.date || "").toLocaleString()}</TableData>
             </TableRow>
             {task?.lastSave && (
