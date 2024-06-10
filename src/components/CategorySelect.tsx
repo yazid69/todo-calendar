@@ -38,7 +38,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
       toast.error(
         (t) => (
           <div onClick={() => toast.dismiss(t.id)}>
-            You cannot add more than {MAX_CATEGORIES} categories
+            Vous ne pouvez pas ajouter plus de {MAX_CATEGORIES} catégories
           </div>
         ),
         {
@@ -109,7 +109,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
             pointerEvents: "none",
           }}
         >
-          Select Categories (max {MAX_CATEGORIES})
+          Sélectionner les catégories (max {MAX_CATEGORIES})
         </MenuItem>
 
         {categories && categories.length > 0 ? (
@@ -127,7 +127,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
           ))
         ) : (
           <MenuItem disabled sx={{ opacity: "1 !important" }}>
-            You don't have any categories
+            Vous n'avez aucune catégorie
           </MenuItem>
         )}
       </StyledSelect>

@@ -230,7 +230,7 @@ export const TaskMenu: React.FC<TaskMenuProps> = ({
         const taskDescription = selectedTask?.description || "";
         const taskDate = formatDate(new Date(selectedTask?.date || ""));
         const taskDeadline = selectedTask?.deadline
-            ? ". Task Deadline: " +
+            ? ". fin de la tâche: " +
             calculateDateDifference(new Date(selectedTask.deadline) || "")
             : "";
 
