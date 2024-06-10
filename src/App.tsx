@@ -14,8 +14,6 @@ function App() {
   const [user, setUser] = useStorageState<User>(defaultUser, "user");
   const isMobile = useResponsiveDisplay();
 
-  // Initialize user properties if they are undefined
-  // this allows to add new properties to the user object without error
   useEffect(() => {
     const updateNestedProperties = (userObject: any, defaultObject: any) => {
       if (!userObject) {

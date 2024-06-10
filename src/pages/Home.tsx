@@ -6,6 +6,7 @@ import { TodayRounded, WifiOff } from "@mui/icons-material";
 import { displayGreetings } from "../utils/displayGreetings";
 import { Emoji } from "emoji-picker-react";
 import { useOnlineStatus } from "../hooks/useOnlineStatus";
+
 import {
     GreetingHeader,
     GreetingText,
@@ -22,7 +23,8 @@ import { UserContext } from "../contexts/UserContext";
 import { Box, Typography } from "@mui/material";
 import { ColorPalette } from "../styles";
 import { getTaskCompletionText } from "../utils/getTaskCompletionText";
-
+import Tache from "../components/TacheProfile";
+import ProfileAvatar from "../components/ProfileAvatar";
 
 const Home = () => {
     const [randomGreetings, setRandomGreetings] = useState<string | ReactNode>(
@@ -111,77 +113,85 @@ const Home = () => {
 
     return (
         <>
+            <Tache />
+            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '20px' }}>
+                <ProfileAvatar />
+            </div>
             <GreetingHeader>
                 <Emoji unified="1f44b" emojiStyle={emojisStyle} /> &nbsp;{" "}
                 {displayGreetings()}
                 {name && <span translate="no">, {name}</span>}
-            </GreetingHeader>
+            </GreetingHeader >
             <GreetingText key={greetingKey}>
                 {renderGreetingWithEmojis(randomGreetings)}
             </GreetingText>
-            {!isOnline && (
-                <Offline>
-                    <WifiOff /> You're offline but you can use the app!
-                </Offline>
-            )}
-            {tasks.length > 0 && (
-                <TasksCountContainer>
-                    <TasksCount glow={settings[0].enableGlow}>
-                        <Box sx={{ position: "relative", display: "inline-flex" }}>
-                            <StyledProgress
-                                variant="determinate"
-                                value={completedTaskPercentage}
-                                size={64}
-                                thickness={5}
-                                aria-label="Progress"
-                                style={{
-                                    filter: settings[0].enableGlow
-                                        ? `drop-shadow(0 0 6px ${ColorPalette.blueSky + "C8"})`
-                                        : "none",
-                                }}
-                            />
-
-                            <ProgressPercentageContainer>
-                                <Typography
-                                    variant="caption"
-                                    component="div"
-                                    color="white"
-                                    sx={{ fontSize: "16px", fontWeight: 600 }}
-                                >{`${Math.round(completedTaskPercentage)}%`}</Typography>
-                            </ProgressPercentageContainer>
-                        </Box>
-                        <TaskCountTextContainer>
-                            <TaskCountHeader>
-                                {completedTasksCount === 0
-                                    ? `You have ${tasks.length} task${tasks.length > 1 ? "s" : ""
-                                    } to complete.`
-                                    : `You've completed ${completedTasksCount} out of ${tasks.length} tasks.`}
-                            </TaskCountHeader>
-                            <TaskCompletionText>
-                                {getTaskCompletionText(completedTaskPercentage)}
-                            </TaskCompletionText>
-                            {tasksWithDeadlineTodayCount > 0 && (
-                                <span
+            {
+                !isOnline && (
+                    <Offline>
+                        <WifiOff /> You're offline but you can use the app!
+                    </Offline>
+                )
+            }
+            {
+                tasks.length > 0 && (
+                    <TasksCountContainer>
+                        <TasksCount glow={settings[0].enableGlow}>
+                            <Box sx={{ position: "relative", display: "inline-flex" }}>
+                                <StyledProgress
+                                    variant="determinate"
+                                    value={completedTaskPercentage}
+                                    size={64}
+                                    thickness={5}
+                                    aria-label="Progress"
                                     style={{
-                                        opacity: 0.8,
-                                        display: "inline-block",
+                                        filter: settings[0].enableGlow
+                                            ? `drop-shadow(0 0 6px ${ColorPalette.blueSky + "C8"})`
+                                            : "none",
                                     }}
-                                >
-                                    <TodayRounded
-                                        sx={{ fontSize: "20px", verticalAlign: "middle" }}
-                                    />
-                                    &nbsp;Tasks due today:&nbsp;
-                                    <span translate="no">
-                                        {new Intl.ListFormat("fr", { style: "long" }).format(
-                                            tasksDueTodayNames
-                                        )}
+                                />
+
+                                <ProgressPercentageContainer>
+                                    <Typography
+                                        variant="caption"
+                                        component="div"
+                                        color="white"
+                                        sx={{ fontSize: "16px", fontWeight: 600 }}
+                                    >{`${Math.round(completedTaskPercentage)}%`}</Typography>
+                                </ProgressPercentageContainer>
+                            </Box>
+                            <TaskCountTextContainer>
+                                <TaskCountHeader>
+                                    {completedTasksCount === 0
+                                        ? `You have ${tasks.length} task${tasks.length > 1 ? "s" : ""
+                                        } to complete.`
+                                        : `You've completed ${completedTasksCount} out of ${tasks.length} tasks.`}
+                                </TaskCountHeader>
+                                <TaskCompletionText>
+                                    {getTaskCompletionText(completedTaskPercentage)}
+                                </TaskCompletionText>
+                                {tasksWithDeadlineTodayCount > 0 && (
+                                    <span
+                                        style={{
+                                            opacity: 0.8,
+                                            display: "inline-block",
+                                        }}
+                                    >
+                                        <TodayRounded
+                                            sx={{ fontSize: "20px", verticalAlign: "middle" }}
+                                        />
+                                        &nbsp;Tasks due today:&nbsp;
+                                        <span translate="no">
+                                            {new Intl.ListFormat("fr", { style: "long" }).format(
+                                                tasksDueTodayNames
+                                            )}
+                                        </span>
                                     </span>
-                                </span>
-                            )}
-                        </TaskCountTextContainer>
-                    </TasksCount>
-                </TasksCountContainer>
-            )}
+                                )}
+                            </TaskCountTextContainer>
+                        </TasksCount>
+                    </TasksCountContainer>
+                )
+            }
             <Tasks />
 
             <AddTaskBtn animate={tasks.length === 0} />

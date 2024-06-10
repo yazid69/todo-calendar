@@ -1,23 +1,54 @@
-// import Avatar from '@mui/material/Avatar';
-// import * as React from 'react';
-// import Stack from '@mui/material/Stack';
+import React, { useState } from 'react';
+import { Avatar, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import AddIcon from '@mui/icons-material/Add';
+import CategoryIcon from '@mui/icons-material/Category';
+import DownloadIcon from '@mui/icons-material/Download';
 
-// interface ProfileAvatarProps {
-//     src: string;
-//     name: string;
-//     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-// }
+const ProfileAvatar = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-// const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ onClick }) => {
-//     return (
-//         <Stack direction="row" spacing={2} onClick={onClick}>
-//             <Avatar src="/broken-image.jpg" />
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
 
-//         </Stack>
 
-//     );
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
-// };
+    return (
+        <div>
+            <Tooltip title="Profile">
+                <IconButton onClick={handleClick}>
+                    <Avatar src="/broken-image.jpg" />
+                </IconButton>
+            </Tooltip>
+            <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={() => alert('Mes tâches')}>
+                    <TaskAltIcon style={{ marginRight: '10px' }} />
+                    Mes tâches
+                </MenuItem>
+                <MenuItem onClick={() => alert('Ajouter des tâches')}>
+                    <AddIcon style={{ marginRight: '10px' }} />
+                    Ajouter des tâches
+                </MenuItem>
+                <MenuItem onClick={() => alert('Afficher les catégories')}>
+                    <CategoryIcon style={{ marginRight: '10px' }} />
+                    Afficher les catégories
+                </MenuItem>
+                <MenuItem onClick={() => alert('Import/Export')}>
+                    <DownloadIcon style={{ marginRight: '10px' }} />
+                    Import/Export
+                </MenuItem>
+            </Menu>
+        </div>
+    );
+};
 
-// export default ProfileAvatar;
-
+export default ProfileAvatar;
