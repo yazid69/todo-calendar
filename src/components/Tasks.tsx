@@ -352,13 +352,13 @@ export const Tasks: React.FC = () => {
             style={{ wordBreak: "break-word" }}
           >
             <b translate="yes">
-              Overdue task{overdueTasks.length > 1 && "s"}:{" "}
+              Tâche en retard{overdueTasks.length > 1 && "s"}:{" "}
             </b>
             {formatTasksArray.format(taskNames)}
           </div>
         ),
         {
-          duration: 3400,
+          duration: 4000,
           icon: <RingAlarm animate sx={{ color: ColorPalette.red }} />,
         }
       );
