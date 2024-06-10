@@ -22,6 +22,7 @@
     "core-js": "^3.35.1",
     "emoji-picker-react": "^4.7.12",
     "intl-list-format": "^1.0.3",
+    "pusher-js": "^8.4.0-rc2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.3",
