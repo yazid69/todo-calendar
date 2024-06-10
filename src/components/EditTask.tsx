@@ -76,7 +76,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
       onSave(editedTask);
       toast.success((t) => (
         <div onClick={() => toast.dismiss(t.id)}>
-          Task <b>{editedTask.name}</b> updated.
+          Tâche <b>{editedTask.name}</b> à jour.
         </div>
       ));
     }
@@ -98,7 +98,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (JSON.stringify(editedTask) !== JSON.stringify(task) && open) {
-        const message = "You have unsaved changes. Are you sure you want to leave?";
+        const message = "Vous avez des modification non enregistré. Etes vous sur de vouloir quitter?";
         e.returnValue = message;
         return message;
       }
@@ -136,10 +136,10 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
           alignItems: "center",
         }}
       >
-        <span>Edit Task</span>
+        <span>Modifier la Tâche</span>
         {editedTask?.lastSave && (
           <LastEdit>
-            Last Edited: {new Date(editedTask?.lastSave).toLocaleDateString()}
+            Dernière modification: {new Date(editedTask?.lastSave).toLocaleDateString()}
             {" • "}
             {new Date(editedTask?.lastSave).toLocaleTimeString()}
           </LastEdit>
@@ -153,7 +153,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
           width="400px"
         />
         <StyledInput
-          label="Name"
+          label="Nom"
           name="name"
           value={editedTask?.name || ""}
           onChange={handleInputChange}
@@ -161,11 +161,11 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
           helperText={
             editedTask?.name
               ? editedTask?.name.length === 0
-                ? "Name is required"
+                ? "Nom est requis"
                 : editedTask?.name.length > TASK_NAME_MAX_LENGTH
-                ? `Name is too long (maximum ${TASK_NAME_MAX_LENGTH} characters)`
-                : `${editedTask?.name?.length}/${TASK_NAME_MAX_LENGTH}`
-              : "Name is required"
+                  ? `Le nom est trop long (maximum ${TASK_NAME_MAX_LENGTH} caractères)`
+                  : `${editedTask?.name?.length}/${TASK_NAME_MAX_LENGTH}`
+              : "Nom est requis"
           }
         />
         <StyledInput
@@ -181,13 +181,13 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
             editedTask?.description === "" || editedTask?.description === undefined
               ? undefined
               : descriptionError
-              ? `Description is too long (maximum ${DESCRIPTION_MAX_LENGTH} characters)`
-              : `${editedTask?.description?.length}/${DESCRIPTION_MAX_LENGTH}`
+                ? `Description trop longue (maximum ${DESCRIPTION_MAX_LENGTH} caractères)`
+                : `${editedTask?.description?.length}/${DESCRIPTION_MAX_LENGTH}`
           }
         />
 
         <StyledInput
-          label="Deadline date"
+          label="Date limite"
           name="deadline"
           type="datetime-local"
           value={editedTask?.deadline || ""}
@@ -248,7 +248,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
         </div>
       </DialogContent>
       <DialogActions>
-        <DialogBtn onClick={handleCancel}>Cancel</DialogBtn>
+        <DialogBtn onClick={handleCancel}>Annuler</DialogBtn>
         <DialogBtn
           onClick={handleSave}
           color="primary"

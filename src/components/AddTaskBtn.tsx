@@ -37,7 +37,7 @@ export const AddTaskBtn = ({ animate }: AddTaskBtnProps): JSX.Element | null => 
   );
 };
 
-const Btn = styled(Button)<{ animate: boolean; glow: boolean }>`
+const Btn = styled(Button) <{ animate: boolean; glow: boolean }>`
   cursor: pointer;
   border: none;
   display: flex;

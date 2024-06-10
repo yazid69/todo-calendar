@@ -1,38 +1,38 @@
 import {
-  Cancel,
-  ContentCopy,
-  DeleteRounded,
-  GetAppRounded,
-  Done,
-  EditRounded,
-  IosShare,
-  LaunchRounded,
-  LinkRounded,
-  Pause,
-  PlayArrow,
-  PushPinRounded,
-  QrCode2Rounded,
-  RadioButtonChecked,
-  RecordVoiceOver,
-  RecordVoiceOverRounded,
-  SettingsRounded,
+    Cancel,
+    ContentCopy,
+    DeleteRounded,
+    GetAppRounded,
+    Done,
+    EditRounded,
+    IosShare,
+    LaunchRounded,
+    LinkRounded,
+    Pause,
+    PlayArrow,
+    PushPinRounded,
+    QrCode2Rounded,
+    RadioButtonChecked,
+    RecordVoiceOver,
+    RecordVoiceOverRounded,
+    SettingsRounded,
 } from "@mui/icons-material";
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  InputAdornment,
-  Menu,
-  MenuItem,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    IconButton,
+    InputAdornment,
+    Menu,
+    MenuItem,
+    Tab,
+    Tabs,
+    TextField,
+    Typography,
 } from "@mui/material";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Emoji, EmojiStyle } from "emoji-picker-react";
@@ -54,560 +54,559 @@ import { SettingsDialog } from "./Settings";
 //TODO: Move all functions to TasksMenu component
 
 interface TaskMenuProps {
-  selectedTaskId: number | null;
-  selectedTasks: number[];
-  setEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  anchorEl: null | HTMLElement;
-  handleDeleteTask: () => void;
-  handleCloseMoreMenu: () => void;
-  handleSelectTask: (taskId: number) => void;
-  setAnchorEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>
+    selectedTaskId: number | null;
+    selectedTasks: number[];
+    setEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    anchorEl: null | HTMLElement;
+    handleDeleteTask: () => void;
+    handleCloseMoreMenu: () => void;
+    handleSelectTask: (taskId: number) => void;
+    setAnchorEl: React.Dispatch<React.SetStateAction<null | HTMLElement>>
 }
 
 export const TaskMenu: React.FC<TaskMenuProps> = ({
-  selectedTaskId,
-  selectedTasks,
-  setEditModalOpen,
-  anchorEl,
-  handleDeleteTask,
-  handleCloseMoreMenu,
-  handleSelectTask,
-  setAnchorEl,
+    selectedTaskId,
+    selectedTasks,
+    setEditModalOpen,
+    anchorEl,
+    handleDeleteTask,
+    handleCloseMoreMenu,
+    handleSelectTask,
+    setAnchorEl,
 }) => {
-  const { user, setUser } = useContext(UserContext);
-  const { tasks, name, settings, emojisStyle } = user;
-  const [showShareDialog, setShowShareDialog] = useState<boolean>(false);
-  const [shareTabVal, setShareTabVal] = useState<number>(0);
-  const isMobile = useResponsiveDisplay();
-  const n = useNavigate();
+    const { user, setUser } = useContext(UserContext);
+    const { tasks, name, settings, emojisStyle } = user;
+    const [showShareDialog, setShowShareDialog] = useState<boolean>(false);
+    const [shareTabVal, setShareTabVal] = useState<number>(0);
+    const isMobile = useResponsiveDisplay();
+    const n = useNavigate();
 
-  const [openSettings, setOpenSettings] = useState<boolean>(false);
-  // const [test, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [openSettings, setOpenSettings] = useState<boolean>(false);
+    // const [test, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const redirectToTaskDetails = () => {
-    const selectedTask = tasks.find((task) => task.id === selectedTaskId);
-    const taskId = selectedTask?.id.toString().replace(".", "");
-    n(`/task/${taskId}`);
-  };
-  //TODO: add bitly api
-  const generateShareableLink = (
-    taskId: number | null,
-    userName: string
-  ): string => {
-    const task = tasks.find((task) => task.id === taskId);
-    if (task) {
-      const encodedTask = encodeURIComponent(JSON.stringify(task));
-      const encodedUserName = encodeURIComponent(userName);
-      return `${window.location.href}share?task=${encodedTask}&userName=${encodedUserName}`;
-    }
-    return "";
-  };
-
-  const handleCopyToClipboard = () => {
-    const linkToCopy = generateShareableLink(selectedTaskId, name || "User");
-
-    navigator.clipboard
-      .writeText(linkToCopy)
-      .then(() => {
-        toast.success((t) => (
-          <div onClick={() => toast.dismiss(t.id)}>
-            Copie du lien dans le presse-papiers
-          </div>
-        ));
-      })
-
-      .catch((error) => {
-        console.error("Error copying link to clipboard:", error);
-        toast.error("Error copying link to clipboard");
-      });
-  };
-
-  const handleShare = () => {
-    const linkToShare = generateShareableLink(selectedTaskId, name || "User");
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "Partager la tâche",
-          text: `Vérifier cette tâche: ${
-            tasks.find((task) => task.id === selectedTaskId)?.name
-          }`,
-          url: linkToShare,
-        })
-        .then(() => {
-          console.log("Lien partagé avec succès");
-        })
-        .catch((error) => {
-          console.error("Erreur de partage de lien:", error);
-          // toast.error("Error sharing link");
-        });
-    }
-  };
-
-  const handleMarkAsDone = () => {
-    // Toggles the "done" property of the selected task
-    if (selectedTaskId) {
-      const updatedTasks = tasks.map((task) => {
-        if (task.id === selectedTaskId) {
-          return { ...task, done: !task.done };
+    const redirectToTaskDetails = () => {
+        const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+        const taskId = selectedTask?.id.toString().replace(".", "");
+        n(`/task/${taskId}`);
+    };
+    //TODO: add bitly api
+    const generateShareableLink = (
+        taskId: number | null,
+        userName: string
+    ): string => {
+        const task = tasks.find((task) => task.id === taskId);
+        if (task) {
+            const encodedTask = encodeURIComponent(JSON.stringify(task));
+            const encodedUserName = encodeURIComponent(userName);
+            return `${window.location.href}share?task=${encodedTask}&userName=${encodedUserName}`;
         }
-        return task;
-      });
-      setUser((prevUser) => ({
-        ...prevUser,
-        tasks: updatedTasks,
-      }));
+        return "";
+    };
 
-      const allTasksDone = updatedTasks.every((task) => task.done);
+    const handleCopyToClipboard = () => {
+        const linkToCopy = generateShareableLink(selectedTaskId, name || "User");
 
-      if (allTasksDone) {
-        toast.success(
-          (t) => (
-            <div onClick={() => toast.dismiss(t.id)}>
-              <b>Toutes les tâches sont accomplies</b>
-              <br />
-              <span>Vous avez fait le tour de vos tâches. Bravo !!!</span>
-            </div>
-          ),
-          {
-            icon: <Emoji unified="1f60e" emojiStyle={emojisStyle} />,
-          }
-        );
-      }
-    }
-  };
+        navigator.clipboard
+            .writeText(linkToCopy)
+            .then(() => {
+                toast.success((t) => (
+                    <div onClick={() => toast.dismiss(t.id)}>
+                        Copie du lien dans le presse-papiers
+                    </div>
+                ));
+            })
 
-  const handlePin = () => {
-    // Toggles the "pinned" property of the selected task
-    if (selectedTaskId) {
-      const updatedTasks = tasks.map((task) => {
-        if (task.id === selectedTaskId) {
-          return { ...task, pinned: !task.pinned };
+            .catch((error) => {
+                console.error("Error copying link to clipboard:", error);
+                toast.error("Error copying link to clipboard");
+            });
+    };
+
+    const handleShare = () => {
+        const linkToShare = generateShareableLink(selectedTaskId, name || "User");
+        if (navigator.share) {
+            navigator
+                .share({
+                    title: "Partager la tâche",
+                    text: `Vérifier cette tâche: ${tasks.find((task) => task.id === selectedTaskId)?.name
+                        }`,
+                    url: linkToShare,
+                })
+                .then(() => {
+                    console.log("Lien partagé avec succès");
+                })
+                .catch((error) => {
+                    console.error("Erreur de partage de lien:", error);
+                    // toast.error("Error sharing link");
+                });
         }
-        return task;
-      });
-      setUser((prevUser) => ({
-        ...prevUser,
-        tasks: updatedTasks,
-      }));
-    }
-  };
-
-  const handleDuplicateTask = () => {
-    if (selectedTaskId) {
-      // Close the menu
-      handleCloseMoreMenu();
-      // Find the selected task
-      const selectedTask = tasks.find((task) => task.id === selectedTaskId);
-      if (selectedTask) {
-        // Create a duplicated task with a new ID and current date
-        const duplicatedTask: Task = {
-          ...selectedTask,
-          id: new Date().getTime() + Math.floor(Math.random() * 1000),
-          date: new Date(),
-          lastSave: undefined,
-        };
-        // Add the duplicated task to the existing tasks
-        const updatedTasks = [...tasks, duplicatedTask];
-        // Update the user object with the updated tasks
-        setUser((prevUser) => ({
-          ...prevUser,
-          tasks: updatedTasks,
-        }));
-      }
-    }
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    document.getElementById("root")?.removeAttribute("aria-sidebar");
-  };
-
-  const handleReadAloud = () => {
-    const selectedTask = tasks.find((task) => task.id === selectedTaskId);
-    const voices = window.speechSynthesis.getVoices();
-    const voiceName = voices.find((voice) => voice.name === settings[0].voice);
-    const voiceVolume = settings[0].voiceVolume;
-    const taskName = selectedTask?.name || "";
-    const taskDescription = selectedTask?.description || "";
-    const taskDate = formatDate(new Date(selectedTask?.date || ""));
-    const taskDeadline = selectedTask?.deadline
-      ? ". Task Deadline: " +
-        calculateDateDifference(new Date(selectedTask.deadline) || "")
-      : "";
-
-    const textToRead = `${taskName}. ${taskDescription}. Date: ${taskDate}${taskDeadline}`;
-
-    const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(
-      textToRead
-    );
-
-    if (voiceName) {
-      utterThis.voice = voiceName;
-    }
-
-    if (voiceVolume) {
-      utterThis.volume = voiceVolume;
-    }
-
-    handleCloseMoreMenu();
-    const pauseSpeech = () => {
-      window.speechSynthesis.pause();
     };
 
-    const resumeSpeech = () => {
-      window.speechSynthesis.resume();
-    };
-
-    const cancelSpeech = () => {
-      window.speechSynthesis.cancel();
-      toast.dismiss(SpeechToastId);
-      handleCloseMoreMenu();
-    };
-
-    const SpeechToastId = toast(
-      () => {
-        const [isPlaying, setIsPlaying] = useState<boolean>(true);
-
-        return (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              touchAction: "none",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                fontWeight: 600,
-              }}
-            >
-              <RecordVoiceOver /> &nbsp; Parler: {selectedTask?.name}
-            </span>
-            <span style={{ marginTop: "10px", fontSize: "16px" }}>
-              Voix: {utterThis.voice?.name || "Default"}
-            </span>
-            <div>
-              <Marquee delay={0.6} play={isPlaying}>
-                <p style={{ margin: "6px 0" }}>{utterThis.text} &nbsp;</p>
-              </Marquee>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "16px",
-                gap: "8px",
-              }}
-            >
-              {isPlaying ? (
-                <IconButton
-                  sx={{ color: "white" }}
-                  onClick={() => {
-                    pauseSpeech();
-                    setIsPlaying(!isPlaying);
-                  }}
-                >
-                  <Pause fontSize="large" />
-                </IconButton>
-              ) : (
-                <IconButton
-                  sx={{ color: "white" }}
-                  onClick={() => {
-                    resumeSpeech();
-                    setIsPlaying(!isPlaying);
-                  }}
-                >
-                  <PlayArrow fontSize="large" />
-                </IconButton>
-              )}
-
-              <IconButton sx={{ color: "white" }} onClick={cancelSpeech}>
-                <Cancel fontSize="large" />
-              </IconButton>
-            </div>
-          </div>
-        );
-      },
-      {
-        duration: 999999999,
-        style: {
-          border: "1px solid #1b1d4eb7",
-          WebkitBackdropFilter: "blur(10px)",
-          backdropFilter: "blur(10px)",
-        },
-      }
-    );
-
-    // Set up event listener for the end of speech
-    utterThis.onend = () => {
-      // Close the menu
-      handleCloseMoreMenu();
-      // Hide the toast when speech ends
-      toast.dismiss(SpeechToastId);
-    };
-    console.log(utterThis);
-    if (voiceVolume > 0) {
-      window.speechSynthesis.speak(utterThis);
-    }
-  };
-
-  const menuItems: JSX.Element = (
-    <div>
-      <StyledMenuItem
-        onClick={() => {
-          handleCloseMoreMenu();
-          handleMarkAsDone();
-        }}
-      >
-        <Done /> &nbsp;{" "}
-        {tasks.find((task) => task.id === selectedTaskId)?.done
-          ? "Marquer comme non fait"
-          : "Marquer comme fait"}
-      </StyledMenuItem>
-      <StyledMenuItem
-        onClick={() => {
-          handleCloseMoreMenu();
-          handlePin();
-        }}
-      >
-        <PushPinRounded /> &nbsp;{" "}
-        {tasks.find((task) => task.id === selectedTaskId)?.pinned
-          ? "Épingler"
-          : "Épingler"}
-      </StyledMenuItem>
-
-      {selectedTasks.length === 0 && (
-        <StyledMenuItem onClick={() => handleSelectTask(selectedTaskId || 0)}>
-          <RadioButtonChecked /> &nbsp; Sélectionner
-        </StyledMenuItem>
-      )}
-
-      <StyledMenuItem onClick={redirectToTaskDetails}>
-        <LaunchRounded /> &nbsp; Détails de la tâche
-      </StyledMenuItem>
-
-      {settings[0].enableReadAloud && (
-        <StyledMenuItem
-          onClick={handleReadAloud}
-          disabled={
-            window.speechSynthesis.speaking || window.speechSynthesis.pending
-          }
-        >
-          <RecordVoiceOverRounded /> &nbsp; Lire à haute voix
-        </StyledMenuItem>
-      )}
-
-      <StyledMenuItem
-        onClick={() => {
-          handleCloseMoreMenu();
-          setShowShareDialog(true);
-        }}
-      >
-        <LinkRounded /> &nbsp; Partager
-      </StyledMenuItem>
-
-      <Divider />
-      <StyledMenuItem
-        onClick={() => {
-          handleCloseMoreMenu();
-          setEditModalOpen(true);
-        }}
-      >
-        <EditRounded /> &nbsp; Modifier
-      </StyledMenuItem>
-      <StyledMenuItem onClick={handleDuplicateTask}>
-        <ContentCopy /> &nbsp; Dupliquer
-      </StyledMenuItem>
-
-      <StyledMenuItem
-        onClick={() => {
-          handleCloseMoreMenu();
-          n("/import-export");
-        }}
-      >
-        <GetAppRounded /> &nbsp; Exporter
-      </StyledMenuItem>
-
-      <StyledMenuItem
-        clr={ColorPalette.fontDark}
-        onClick={() => {
-          setOpenSettings(true);
-          handleClose();
-        }}
-      >
-        <SettingsRounded /> &nbsp; Settings
-      </StyledMenuItem>
-      <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
-
-      <Divider />
-      <StyledMenuItem
-        clr={ColorPalette.red}
-        onClick={() => {
-          handleCloseMoreMenu();
-          handleDeleteTask();
-        }}
-      >
-        <DeleteRounded /> &nbsp; Supprimer
-      </StyledMenuItem>
-    </div>
-  );
-
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setShareTabVal(newValue);
-  };
-  return (
-    <>
-      {isMobile ? (
-        <BottomSheet
-          open={Boolean(anchorEl)}
-          onDismiss={handleCloseMoreMenu}
-          snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
-          expandOnContentDrag
-          header={
-            <SheetHeader>
-              <Emoji
-                emojiStyle={emojisStyle}
-                size={32}
-                unified={
-                  tasks.find((task) => task.id === selectedTaskId)?.emoji || ""
+    const handleMarkAsDone = () => {
+        // Toggles the "done" property of the selected task
+        if (selectedTaskId) {
+            const updatedTasks = tasks.map((task) => {
+                if (task.id === selectedTaskId) {
+                    return { ...task, done: !task.done };
                 }
-              />{" "}
-              {emojisStyle === EmojiStyle.NATIVE && "\u00A0 "}
-              {tasks.find((task) => task.id === selectedTaskId)?.name}
-            </SheetHeader>
-          }
-        >
-          <SheetContent>{menuItems}</SheetContent>
-        </BottomSheet>
-      ) : (
-        <Menu
-          id="task-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleCloseMoreMenu}
-          sx={{
-            "& .MuiPaper-root": {
-              borderRadius: "18px",
-              minWidth: "200px",
-              boxShadow: "none",
-              padding: "6px 4px",
-            },
-          }}
-          MenuListProps={{
-            "aria-labelledby": "more-button",
-          }}
-        >
-          {menuItems}
-        </Menu>
-      )}
-      <Dialog
-        open={showShareDialog}
-        onClose={() => setShowShareDialog(false)}
-        PaperProps={{
-          style: {
-            borderRadius: "28px",
-            padding: "10px",
-            width: "560px",
-          },
-        }}
-      >
-        <DialogTitle>Partager la tâche</DialogTitle>
-        <DialogContent>
-          <span>
-            Partager la tâche :{" "}
-            <b>{tasks.find((task) => task.id === selectedTaskId)?.name}</b>
-          </span>
-          <Tabs
-            value={shareTabVal}
-            onChange={handleTabChange}
-            sx={{ m: "8px 0" }}
-          >
-            <StyledTab label="Lien" icon={<LinkRounded />} />
-            <StyledTab label="QR Code" icon={<QrCode2Rounded />} />
-          </Tabs>
-          <CustomTabPanel value={shareTabVal} index={0}>
-            <ShareField
-              value={generateShareableLink(selectedTaskId, name || "User")}
-              fullWidth
-              variant="outlined"
-              label="Lien partageable"
-              InputProps={{
-                readOnly: true,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      onClick={() => {
-                        handleCopyToClipboard();
-                      }}
-                      sx={{ padding: "8px 12px", borderRadius: "12px" }}
+                return task;
+            });
+            setUser((prevUser) => ({
+                ...prevUser,
+                tasks: updatedTasks,
+            }));
+
+            const allTasksDone = updatedTasks.every((task) => task.done);
+
+            if (allTasksDone) {
+                toast.success(
+                    (t) => (
+                        <div onClick={() => toast.dismiss(t.id)}>
+                            <b>Toutes les tâches sont accomplies</b>
+                            <br />
+                            <span>Vous avez fait le tour de vos tâches. Bravo !!!</span>
+                        </div>
+                    ),
+                    {
+                        icon: <Emoji unified="1f60e" emojiStyle={emojisStyle} />,
+                    }
+                );
+            }
+        }
+    };
+
+    const handlePin = () => {
+        // Toggles the "pinned" property of the selected task
+        if (selectedTaskId) {
+            const updatedTasks = tasks.map((task) => {
+                if (task.id === selectedTaskId) {
+                    return { ...task, pinned: !task.pinned };
+                }
+                return task;
+            });
+            setUser((prevUser) => ({
+                ...prevUser,
+                tasks: updatedTasks,
+            }));
+        }
+    };
+
+    const handleDuplicateTask = () => {
+        if (selectedTaskId) {
+            // Close the menu
+            handleCloseMoreMenu();
+            // Find the selected task
+            const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+            if (selectedTask) {
+                // Create a duplicated task with a new ID and current date
+                const duplicatedTask: Task = {
+                    ...selectedTask,
+                    id: new Date().getTime() + Math.floor(Math.random() * 1000),
+                    date: new Date(),
+                    lastSave: undefined,
+                };
+                // Add the duplicated task to the existing tasks
+                const updatedTasks = [...tasks, duplicatedTask];
+                // Update the user object with the updated tasks
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    tasks: updatedTasks,
+                }));
+            }
+        }
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        document.getElementById("root")?.removeAttribute("aria-sidebar");
+    };
+
+    const handleReadAloud = () => {
+        const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+        const voices = window.speechSynthesis.getVoices();
+        const voiceName = voices.find((voice) => voice.name === settings[0].voice);
+        const voiceVolume = settings[0].voiceVolume;
+        const taskName = selectedTask?.name || "";
+        const taskDescription = selectedTask?.description || "";
+        const taskDate = formatDate(new Date(selectedTask?.date || ""));
+        const taskDeadline = selectedTask?.deadline
+            ? ". fin de la tâche: " +
+            calculateDateDifference(new Date(selectedTask.deadline) || "")
+            : "";
+
+        const textToRead = `${taskName}. ${taskDescription}. Date: ${taskDate}${taskDeadline}`;
+
+        const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(
+            textToRead
+        );
+
+        if (voiceName) {
+            utterThis.voice = voiceName;
+        }
+
+        if (voiceVolume) {
+            utterThis.volume = voiceVolume;
+        }
+
+        handleCloseMoreMenu();
+        const pauseSpeech = () => {
+            window.speechSynthesis.pause();
+        };
+
+        const resumeSpeech = () => {
+            window.speechSynthesis.resume();
+        };
+
+        const cancelSpeech = () => {
+            window.speechSynthesis.cancel();
+            toast.dismiss(SpeechToastId);
+            handleCloseMoreMenu();
+        };
+
+        const SpeechToastId = toast(
+            () => {
+                const [isPlaying, setIsPlaying] = useState<boolean>(true);
+
+                return (
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            touchAction: "none",
+                        }}
                     >
-                      <ContentCopy /> &nbsp; Copie
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                mt: 3,
-              }}
-            />
-          </CustomTabPanel>
-          <CustomTabPanel value={shareTabVal} index={1}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "#fff",
-                marginTop: "22px",
-              }}
+                        <span
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                fontWeight: 600,
+                            }}
+                        >
+                            <RecordVoiceOver /> &nbsp; Parler: {selectedTask?.name}
+                        </span>
+                        <span style={{ marginTop: "10px", fontSize: "16px" }}>
+                            Voix: {utterThis.voice?.name || "Default"}
+                        </span>
+                        <div>
+                            <Marquee delay={0.6} play={isPlaying}>
+                                <p style={{ margin: "6px 0" }}>{utterThis.text} &nbsp;</p>
+                            </Marquee>
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                marginTop: "16px",
+                                gap: "8px",
+                            }}
+                        >
+                            {isPlaying ? (
+                                <IconButton
+                                    sx={{ color: "white" }}
+                                    onClick={() => {
+                                        pauseSpeech();
+                                        setIsPlaying(!isPlaying);
+                                    }}
+                                >
+                                    <Pause fontSize="large" />
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                    sx={{ color: "white" }}
+                                    onClick={() => {
+                                        resumeSpeech();
+                                        setIsPlaying(!isPlaying);
+                                    }}
+                                >
+                                    <PlayArrow fontSize="large" />
+                                </IconButton>
+                            )}
+
+                            <IconButton sx={{ color: "white" }} onClick={cancelSpeech}>
+                                <Cancel fontSize="large" />
+                            </IconButton>
+                        </div>
+                    </div>
+                );
+            },
+            {
+                duration: 999999999,
+                style: {
+                    border: "1px solid #1b1d4eb7",
+                    WebkitBackdropFilter: "blur(10px)",
+                    backdropFilter: "blur(10px)",
+                },
+            }
+        );
+
+        // Set up event listener for the end of speech
+        utterThis.onend = () => {
+            // Close the menu
+            handleCloseMoreMenu();
+            // Hide the toast when speech ends
+            toast.dismiss(SpeechToastId);
+        };
+        console.log(utterThis);
+        if (voiceVolume > 0) {
+            window.speechSynthesis.speak(utterThis);
+        }
+    };
+
+    const menuItems: JSX.Element = (
+        <div>
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    handleMarkAsDone();
+                }}
             >
-              <QRCode
-                value={generateShareableLink(selectedTaskId, name || "User")}
-                size={384}
-              />
-            </Box>
-          </CustomTabPanel>
-        </DialogContent>
-        <DialogActions>
-          <DialogBtn onClick={() => setShowShareDialog(false)}>
-            Fermer
-          </DialogBtn>
-          <DialogBtn onClick={handleShare}>
-            <IosShare sx={{ mb: "4px" }} /> &nbsp; Partager
-          </DialogBtn>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
+                <Done /> &nbsp;{" "}
+                {tasks.find((task) => task.id === selectedTaskId)?.done
+                    ? "Marquer comme non fait"
+                    : "Marquer comme fait"}
+            </StyledMenuItem>
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    handlePin();
+                }}
+            >
+                <PushPinRounded /> &nbsp;{" "}
+                {tasks.find((task) => task.id === selectedTaskId)?.pinned
+                    ? "Épingler"
+                    : "Épingler"}
+            </StyledMenuItem>
+
+            {selectedTasks.length === 0 && (
+                <StyledMenuItem onClick={() => handleSelectTask(selectedTaskId || 0)}>
+                    <RadioButtonChecked /> &nbsp; Sélectionner
+                </StyledMenuItem>
+            )}
+
+            <StyledMenuItem onClick={redirectToTaskDetails}>
+                <LaunchRounded /> &nbsp; Détails de la tâche
+            </StyledMenuItem>
+
+            {settings[0].enableReadAloud && (
+                <StyledMenuItem
+                    onClick={handleReadAloud}
+                    disabled={
+                        window.speechSynthesis.speaking || window.speechSynthesis.pending
+                    }
+                >
+                    <RecordVoiceOverRounded /> &nbsp; Lire à haute voix
+                </StyledMenuItem>
+            )}
+
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    setShowShareDialog(true);
+                }}
+            >
+                <LinkRounded /> &nbsp; Partager
+            </StyledMenuItem>
+
+            <Divider />
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    setEditModalOpen(true);
+                }}
+            >
+                <EditRounded /> &nbsp; Modifier
+            </StyledMenuItem>
+            <StyledMenuItem onClick={handleDuplicateTask}>
+                <ContentCopy /> &nbsp; Dupliquer
+            </StyledMenuItem>
+
+            <StyledMenuItem
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    n("/import-export");
+                }}
+            >
+                <GetAppRounded /> &nbsp; Exporter
+            </StyledMenuItem>
+
+            <StyledMenuItem
+                clr={ColorPalette.fontDark}
+                onClick={() => {
+                    setOpenSettings(true);
+                    handleClose();
+                }}
+            >
+                <SettingsRounded /> &nbsp; Settings
+            </StyledMenuItem>
+            <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
+
+            <Divider />
+            <StyledMenuItem
+                clr={ColorPalette.red}
+                onClick={() => {
+                    handleCloseMoreMenu();
+                    handleDeleteTask();
+                }}
+            >
+                <DeleteRounded /> &nbsp; Supprimer
+            </StyledMenuItem>
+        </div>
+    );
+
+    const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+        setShareTabVal(newValue);
+    };
+    return (
+        <>
+            {isMobile ? (
+                <BottomSheet
+                    open={Boolean(anchorEl)}
+                    onDismiss={handleCloseMoreMenu}
+                    snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
+                    expandOnContentDrag
+                    header={
+                        <SheetHeader>
+                            <Emoji
+                                emojiStyle={emojisStyle}
+                                size={32}
+                                unified={
+                                    tasks.find((task) => task.id === selectedTaskId)?.emoji || ""
+                                }
+                            />{" "}
+                            {emojisStyle === EmojiStyle.NATIVE && "\u00A0 "}
+                            {tasks.find((task) => task.id === selectedTaskId)?.name}
+                        </SheetHeader>
+                    }
+                >
+                    <SheetContent>{menuItems}</SheetContent>
+                </BottomSheet>
+            ) : (
+                <Menu
+                    id="task-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleCloseMoreMenu}
+                    sx={{
+                        "& .MuiPaper-root": {
+                            borderRadius: "18px",
+                            minWidth: "200px",
+                            boxShadow: "none",
+                            padding: "6px 4px",
+                        },
+                    }}
+                    MenuListProps={{
+                        "aria-labelledby": "more-button",
+                    }}
+                >
+                    {menuItems}
+                </Menu>
+            )}
+            <Dialog
+                open={showShareDialog}
+                onClose={() => setShowShareDialog(false)}
+                PaperProps={{
+                    style: {
+                        borderRadius: "28px",
+                        padding: "10px",
+                        width: "560px",
+                    },
+                }}
+            >
+                <DialogTitle>Partager la tâche</DialogTitle>
+                <DialogContent>
+                    <span>
+                        Partager la tâche :{" "}
+                        <b>{tasks.find((task) => task.id === selectedTaskId)?.name}</b>
+                    </span>
+                    <Tabs
+                        value={shareTabVal}
+                        onChange={handleTabChange}
+                        sx={{ m: "8px 0" }}
+                    >
+                        <StyledTab label="Lien" icon={<LinkRounded />} />
+                        <StyledTab label="QR Code" icon={<QrCode2Rounded />} />
+                    </Tabs>
+                    <CustomTabPanel value={shareTabVal} index={0}>
+                        <ShareField
+                            value={generateShareableLink(selectedTaskId, name || "User")}
+                            fullWidth
+                            variant="outlined"
+                            label="Lien partageable"
+                            InputProps={{
+                                readOnly: true,
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Button
+                                            onClick={() => {
+                                                handleCopyToClipboard();
+                                            }}
+                                            sx={{ padding: "8px 12px", borderRadius: "12px" }}
+                                        >
+                                            <ContentCopy /> &nbsp; Copie
+                                        </Button>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            sx={{
+                                mt: 3,
+                            }}
+                        />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={shareTabVal} index={1}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                background: "#fff",
+                                marginTop: "22px",
+                            }}
+                        >
+                            <QRCode
+                                value={generateShareableLink(selectedTaskId, name || "User")}
+                                size={384}
+                            />
+                        </Box>
+                    </CustomTabPanel>
+                </DialogContent>
+                <DialogActions>
+                    <DialogBtn onClick={() => setShowShareDialog(false)}>
+                        Fermer
+                    </DialogBtn>
+                    <DialogBtn onClick={handleShare}>
+                        <IosShare sx={{ mb: "4px" }} /> &nbsp; Partager
+                    </DialogBtn>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
 };
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+    children?: React.ReactNode;
+    index: number;
+    value: number;
 }
 function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`share-tabpanel-${index}`}
-      aria-labelledby={`share-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`share-tabpanel-${index}`}
+            aria-labelledby={`share-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
 }
 const SheetHeader = styled.h3`
   display: flex;
@@ -632,7 +631,7 @@ const SheetContent = styled.div`
     }
   }
 `;
-const StyledMenuItem = styled(MenuItem)<{ clr?: string }>`
+const StyledMenuItem = styled(MenuItem) <{ clr?: string }>`
   margin: 0 6px;
   padding: 12px;
   border-radius: 12px;
@@ -661,5 +660,5 @@ const StyledTab = styled(Tab)`
   }
 `;
 StyledTab.defaultProps = {
-  iconPosition: "start",
+    iconPosition: "start",
 };

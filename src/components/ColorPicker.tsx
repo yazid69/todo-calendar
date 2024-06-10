@@ -204,7 +204,7 @@ const AccordionPreview = styled.div<{ clr: string }>`
   transition: 0.3s background;
 `;
 
-const ColorPreview = styled(Grid)<{ clr: string }>`
+const ColorPreview = styled(Grid) <{ clr: string }>`
   margin-top: 16px;
   display: flex;
   justify-content: center;
@@ -245,7 +245,7 @@ const StyledColorPicker = styled.input`
   }
 `;
 
-const ColorizeIcon = styled(Colorize)<{ clr: string }>`
+const ColorizeIcon = styled(Colorize) <{ clr: string }>`
   color: ${({ clr }) => getFontColorFromHex(clr)};
   position: absolute;
   cursor: pointer;

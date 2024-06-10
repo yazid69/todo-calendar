@@ -49,7 +49,7 @@ export const AddTaskButton = styled(Button)`
     color: white;
   }
 `;
-export const StyledInput = styled(TextField)<{ helpercolor?: string }>`
+export const StyledInput = styled(TextField) <{ helpercolor?: string }>`
   margin: 12px;
   & .MuiOutlinedInput-root {
     border-radius: 16px;

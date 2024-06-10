@@ -70,7 +70,7 @@ interface StyledBadgeProps {
   list?: boolean;
 }
 
-export const StyledCategoryBadge = styled(Chip)<StyledBadgeProps>`
+export const StyledCategoryBadge = styled(Chip) <StyledBadgeProps>`
   color: ${({ backgroundclr }) => getFontColorFromHex(backgroundclr || "")};
   background-color: ${({ backgroundclr }) => backgroundclr};
   box-shadow: ${({ glow, backgroundclr }) => (glow ? `0 0 8px 0 ${backgroundclr}` : "none")};

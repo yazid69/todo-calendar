@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
  */
 export const useCtrlS = (): void => {
   // prettier-ignore
-  const {user: { tasks }} = useContext(UserContext);
+  const { user: { tasks } } = useContext(UserContext);
   // Check if the key combination is Ctrl + S
   const handleKeyDown = (e: KeyboardEvent) => {
     if ((e.key === "s" || e.key === "S") && (e.ctrlKey || e.metaKey)) {

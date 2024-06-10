@@ -12,15 +12,15 @@ export {
 } from "./globalStyles";
 export {
   GreetingHeader,
-//   GreetingText,
-//   TasksCount,
-//   TaskCompletionText,
-//   TaskCountHeader,
-//   TaskCountTextContainer,
-//   TasksCountContainer,
-//   ProgressPercentageContainer,
+  //   GreetingText,
+  //   TasksCount,
+  //   TaskCompletionText,
+  //   TaskCountHeader,
+  //   TaskCountTextContainer,
+  //   TasksCountContainer,
+  //   ProgressPercentageContainer,
   Offline,
-//   StyledProgress,
+  //   StyledProgress,
 } from "./home.styled";
 export { Container, Input, AddTaskButton, StyledInput } from "./addTask.styled";
 export {

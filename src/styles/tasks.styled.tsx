@@ -92,7 +92,7 @@ export const TaskDescription = styled.p<{ done: boolean }>`
   line-height: 1em; */
 `;
 
-export const ShowMoreBtn = styled(Button)<{ clr: string }>`
+export const ShowMoreBtn = styled(Button) <{ clr: string }>`
   background: none;
   border: none;
   cursor: pointer;
@@ -161,7 +161,7 @@ export const SelectedTasksContainer = styled.div`
   border-radius: 16px;
 `;
 
-export const StyledRadio = styled(Checkbox)<{ clr: string }>`
+export const StyledRadio = styled(Checkbox) <{ clr: string }>`
   margin-left: -8px;
   margin-right: 4px;
   color: ${({ clr }) => clr} !important;
@@ -263,7 +263,7 @@ const ring = keyframes`
   100% { -webkit-transform: rotateZ(0); }
 `;
 //TODO: improve timings
-export const RingAlarm = styled(Alarm)<{ animate?: boolean }>`
+export const RingAlarm = styled(Alarm) <{ animate?: boolean }>`
   color: red;
 
   ${({ animate }) =>

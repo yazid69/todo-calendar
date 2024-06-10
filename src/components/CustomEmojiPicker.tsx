@@ -97,8 +97,8 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width }: EmojiPicker
             showEmojiPicker
               ? "Close Emoji Picker"
               : currentEmoji
-              ? "Change Emoji"
-              : "Choose an Emoji"
+                ? "Change Emoji"
+                : "Choose an Emoji"
           }
         >
           <Badge
