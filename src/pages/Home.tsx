@@ -155,7 +155,7 @@ const Home = () => {
                   ? `You have ${tasks.length} task${
                       tasks.length > 1 ? "s" : ""
                     } to complete.`
-                  : `You've completed ${completedTasksCount} out of ${tasks.length} tasks.`}
+                  : `Vous avez accompli ${completedTasksCount} sur ${tasks.length} tâches.`}
               </TaskCountHeader>
               <TaskCompletionText>
                 {getTaskCompletionText(completedTaskPercentage)}
