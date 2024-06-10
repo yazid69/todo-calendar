@@ -351,13 +351,13 @@ export const Tasks: React.FC = () => {
             style={{ wordBreak: "break-word" }}
           >
             <b translate="yes">
-              Overdue task{overdueTasks.length > 1 && "s"}:{" "}
+              Tâche en retard{overdueTasks.length > 1 && "s"}:{" "}
             </b>
             {formatTasksArray.format(taskNames)}
           </div>
         ),
         {
-          duration: 3400,
+          duration: 4000,
           icon: <RingAlarm animate sx={{ color: ColorPalette.red }} />,
         }
       );
@@ -378,6 +378,7 @@ export const Tasks: React.FC = () => {
         handleDeleteTask={handleDeleteTask}
         handleCloseMoreMenu={handleCloseMoreMenu}
         handleSelectTask={handleSelectTask}
+        setAnchorEl={setAnchorEl}
       />
       <TasksContainer>
         {user.tasks.length > 0 && (
@@ -650,7 +651,7 @@ export const Tasks: React.FC = () => {
                       gap: "4px",
                     }}
                   >
-                    <Link /> Partagé par {task.sharedBy}
+                     <Link /> Partagé {/*par {task.sharedBy} */}
                     {/* <Chip
                       avatar={<Avatar>{task.sharedBy[0]}</Avatar>}
                       label={task.sharedBy}

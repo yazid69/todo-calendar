@@ -120,7 +120,7 @@ const Home = () => {
       </GreetingText>
       {!isOnline && (
         <Offline>
-          <WifiOff /> You're offline but you can use the app!
+          <WifiOff /> Vous êtes hors ligne mais vous pouvez toujours utiliser l'application.
         </Offline>
       )}
       {tasks.length > 0 && (

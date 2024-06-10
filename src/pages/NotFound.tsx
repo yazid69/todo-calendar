@@ -4,7 +4,6 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ColorPalette, PathName } from "../styles";
 import { ReactNode, useEffect } from "react";
-import TaskNotFound from "../assets/TaskNotFound.webp";
 
 interface NotFoundProps {
   message?: string | ReactNode;
@@ -20,7 +19,6 @@ const NotFound: React.FC<NotFoundProps> = ({ message }) => {
   return (
     <Container>
       <ErrorCode>404</ErrorCode>
-      <NotFoundImg src={TaskNotFound} />
       <Description>
         {message ? (
           message
@@ -58,7 +56,6 @@ const Container = styled.div`
 const ErrorCode = styled.h1`
   font-size: 128px;
   color: ${ColorPalette.blueSky};
-  text-shadow: 0 0 32px #b624ffa9;
 `;
 
 const Description = styled.p`
@@ -72,10 +69,4 @@ const BackButton = styled(Button)`
   font-size: 18px;
   border-radius: 16px;
   margin: 16px;
-`;
-
-const NotFoundImg = styled.img`
-  width: 350px;
-  margin-left: 32px;
-  filter: drop-shadow(0px 0px 128px ${ColorPalette.blueSky});
 `;

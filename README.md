@@ -1,7 +1,7 @@
 # TODO-CALENDAR
 
 ## URL App
-[todo-calendar-omega.vercel.app](https://todo-calendar-omega.vercel.app/)
+todo-calendar-omega.vercel.app
 
 ## ⚡ Features
 
@@ -34,9 +34,6 @@ Search functionality allows you to filter tasks by name or description, making i
 
 ### 🗣️ Task Reading Aloud
 Option to have tasks read aloud using the native SpeechSynthesis API, with a selection of voices to choose from.
-
-### 📥 Import/Export Tasks
-Users can import and export tasks to/from JSON files. This feature allows users to back up their tasks or transfer them to other devices easily. <!-- [Example Import File](#) -->
 
 ### 📴 Works Offline
 This app is a Progressive Web App (PWA), which means it can be installed on your device and used even when you're offline. You can access and manage your tasks without an internet connection, ensuring uninterrupted productivity.
