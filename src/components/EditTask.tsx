@@ -261,7 +261,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
           }
         >
           {/* <SaveRounded /> &nbsp;  */}
-          Save
+          Enregistrer
         </DialogBtn>
       </DialogActions>
     </Dialog>
